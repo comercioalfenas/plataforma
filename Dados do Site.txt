@@ -1,0 +1,36 @@
+SUPABASE:
+Nome do projeto: guia-comercial-alfenas
+Senha: guiaalfenas@01
+
+Plano Trimestral: R$59,90
+Validade : 3 meses
+Vídeo No Anúncio : Sim
+Link Para Site : Sim
+Quant. De Imagens : 15 + espaço para logomarca
+Faixa De Preço : Sim
+Horário De Funcionamento : Sim
+Permitir Palavras-Chaves : Sim
+Criar Cupom desconto : Sim
+
+Plano Semestral: R$107,90
+Validade : 3 meses
+Vídeo No Anúncio : Sim
+Link Para Site : Sim
+Quant. De Imagens : 15 + espaço para logomarca
+Faixa De Preço : Sim
+Horário De Funcionamento : Sim
+Permitir Palavras-Chaves : Sim
+Criar Cupom desconto : Sim
+
+Plano Anual: R$189,90
+Validade : 3 meses
+Vídeo No Anúncio : Sim
+Link Para Site : Sim
+Quant. De Imagens : 15 + espaço para logomarca
+Faixa De Preço : Sim
+Horário De Funcionamento : Sim
+Permitir Palavras-Chaves : Sim
+Criar Cupom desconto : Sim
+
+Opção:
+Anuncio Capa 15 dias R$120,00
