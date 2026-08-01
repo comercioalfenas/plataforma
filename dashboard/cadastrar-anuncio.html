@@ -1,16 +1,290 @@
-<script type="module">
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <link rel="icon" type="image/png" href="../assets/img/favicon.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastrar Anúncio - Guia Comercial</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f8fafc;
+            color: #333333;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .main-header {
+            background-color: #ffffff;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 900;
+            font-size: 1.8rem;
+            color: #e11d48;
+        }
+
+        .logo span { color: #0f172a; }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #475569;
+            font-weight: 700;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+        }
+
+        .page-title { padding: 30px 0 10px 0; }
+        .page-title h1 { font-size: 1.8rem; color: #0f172a; }
+        .page-title p { color: #64748b; font-size: 0.9rem; }
+
+        .form-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 30px;
+            margin: 20px 0 50px 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+        }
+
+        .form-section-title {
+            font-size: 1.1rem;
+            color: #1e293b;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #f1f5f9;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .form-group { margin-bottom: 20px; }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 600px) {
+            .form-row { grid-template-columns: 1fr; }
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: #334155;
+            margin-bottom: 6px;
+        }
+
+        input[type="text"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            outline: none;
+            transition: border-color 0.2s;
+            background-color: #ffffff;
+        }
+
+        input[type="text"]:focus, select:focus, textarea:focus {
+            border-color: #93c5fd;
+        }
+
+        input[type="file"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px dashed #cbd5e1;
+            background-color: #f8fafc;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+        }
+
+        textarea { resize: vertical; min-height: 100px; }
+
+        .preview-container {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+
+        .preview-thumb {
+            width: 70px;
+            height: 70px;
+            object-fit: cover;
+            border-radius: 6px;
+            border: 1px solid #cbd5e1;
+        }
+
+        .btn-submit {
+            background-color: #2563eb;
+            color: #ffffff;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1rem;
+            font-weight: 700;
+            border-radius: 6px;
+            cursor: pointer;
+            width: 100%;
+            transition: background-color 0.2s;
+            margin-top: 10px;
+        }
+
+        .btn-submit:hover { background-color: #1d4ed8; }
+        .btn-submit:disabled { background-color: #cbd5e1; cursor: not-allowed; }
+    </style>
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="container nav-container">
+            <a href="../index.html" class="logo">
+                <i class="fa-solid fa-location-dot"></i> GUIA<span>ALFENAS</span>
+            </a>
+            
+            <nav class="nav-links">
+                <a href="../index.html">INÍCIO</a>
+                <a href="../planos.html">PLANOS</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="page-title">
+            <h1>Configurar Anúncio da Empresa</h1>
+            <p>Preencha os dados abaixo para publicar seu anúncio no portal.</p>
+        </div>
+
+        <form id="formAnuncio" class="form-card">
+            
+            <div class="form-section-title">
+                <i class="fa-solid fa-store" style="color: #2563eb;"></i> 1. Informações do Negócio
+            </div>
+
+            <div class="form-group">
+                <label for="nomeEmpresa">Nome Fantasia da Empresa *</label>
+                <input type="text" id="nomeEmpresa" placeholder="Ex: Zinzane Boutique" required>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="cidade">Cidade *</label>
+                    <select id="cidade" required>
+                        <option value="">Selecione a cidade...</option>
+                        <option value="Alfenas">Alfenas</option>
+                        <option value="Alterosa">Alterosa</option>
+                        <option value="Areado">Areado</option>
+                        <option value="Boa Esperança">Boa Esperança</option>
+                        <option value="Campos Gerais">Campos Gerais</option>
+                        <option value="Fama">Fama</option>
+                        <option value="Guaxupé">Guaxupé</option>
+                        <option value="Machado">Machado</option>
+                        <option value="Passos">Passos</option>
+                        <option value="Poços de Caldas">Poços de Caldas</option>
+                        <option value="Pouso Alegre">Pouso Alegre</option>
+                        <option value="Varginha">Varginha</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="categoria">Categoria Principal *</label>
+                    <select id="categoria" required>
+                        <option value="">Selecione a categoria...</option>
+                        <option value="Academias e Esportes">Academias e Esportes</option>
+                        <option value="Advocacia e Contabilidade">Advocacia e Contabilidade</option>
+                        <option value="Alimentação e Gastronomia">Alimentação e Gastronomia</option>
+                        <option value="Automotivo e Peças">Automotivo e Peças</option>
+                        <option value="Bares e Distribuidoras">Bares e Distribuidoras</option>
+                        <option value="Beleza e Estética">Beleza e Estética</option>
+                        <option value="Casa, Construção e Reformas">Casa, Construção e Reformas</option>
+                        <option value="Comércio e Compras">Comércio e Compras</option>
+                        <option value="Cursos e Educação">Cursos e Educação</option>
+                        <option value="Eventos e Festas">Eventos e Festas</option>
+                        <option value="Farmácias e Saúde">Farmácias e Saúde</option>
+                        <option value="Imóveis e Imobiliárias">Imóveis e Imobiliárias</option>
+                        <option value="Pet Shop e Veterinária">Pet Shop e Veterinária</option>
+                        <option value="Serviços Gerais e Manutenção">Serviços Gerais e Manutenção</option>
+                        <option value="Tecnologia e Celulares">Tecnologia e Celulares</option>
+                        <option value="Turismo e Hospedagem">Turismo e Hospedagem</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="descricao">Sobre a Empresa / Descrição do Anúncio *</label>
+                <textarea id="descricao" placeholder="Escreva aqui os detalhes sobre seus produtos, serviços e diferenciais..." required></textarea>
+            </div>
+
+            <div class="form-section-title">
+                <i class="fa-solid fa-images" style="color: #2563eb;"></i> 2. Logo da Empresa
+            </div>
+
+            <div class="form-group">
+                <label for="uploadLogo">Logo da Empresa (PNG ou JPEG)</label>
+                <input type="file" id="uploadLogo" accept="image/png, image/jpeg, image/jpg">
+                <div id="previewLogoContainer" class="preview-container"></div>
+                <p style="color: #64748b; font-size: 0.8rem; margin-top: 5px;">Recomendado: imagem quadrada, ex: 500x500px.</p>
+            </div>
+
+            <button type="submit" class="btn-submit">SALVAR E PUBLICAR ANÚNCIO</button>
+        </form>
+    </div>
+
+    <script type="module">
         import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
 
+        // Configurações públicas do Supabase
         const SUPABASE_URL = 'https://sdwpoxtoosaseymlbgcn.supabase.co';
         const SUPABASE_ANON_KEY = 'sb_publishable_qxJw3aamUcr9jI8m25OQrw_YdqBAn0p';
         const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
         let logoDataUrl = '';
 
+        // Lógica de pré-visualização da imagem
         document.getElementById('uploadLogo').addEventListener('change', function(e) {
             const file = e.target.files[0];
             const container = document.getElementById('previewLogoContainer');
-            container.innerHTML = '';
+            container.innerHTML = ''; // Limpa preview anterior
             if (file) {
                 const reader = new FileReader();
                 reader.onload = function(event) {
@@ -24,6 +298,7 @@
             }
         });
 
+        // Envio do formulário
         document.getElementById('formAnuncio').addEventListener('submit', async function(e) {
             e.preventDefault();
 
@@ -31,30 +306,39 @@
             btnSubmit.innerText = 'Salvando no Banco de Dados...';
             btnSubmit.disabled = true;
 
+            // Monta o objeto com os dados
             const novoAnuncio = {
                 titulo: document.getElementById('nomeEmpresa').value.trim(),
                 cidade: document.getElementById('cidade').value.toLowerCase().trim(),
                 categoria: document.getElementById('categoria').value.trim(),
                 descricao: document.getElementById('descricao').value.trim(),
+                // Usa imagem padrão se o usuário não subir logo
                 imagem_url: logoDataUrl || 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?q=80&w=600&auto=format&fit=crop',
-                status: 'ABERTO AGORA'
+                status: 'ABERTO AGORA' // Status padrão
             };
 
             try {
+                // Tenta inserir na tabela 'anuncios'
                 const { data, error } = await supabase
                     .from('anuncios')
                     .insert([novoAnuncio]);
 
-                if (error) throw error;
+                if (error) {
+                    throw error;
+                }
 
                 alert('Anúncio cadastrado e publicado com sucesso no Supabase!');
+                // Redireciona para a home
                 window.location.href = '../index.html';
 
             } catch (err) {
-                console.error('Erro ao salvar:', err);
-                alert('Erro ao salvar o anúncio: ' + err.message);
+                console.error('Erro detalhado do Supabase:', err);
+                alert('Erro ao salvar o anúncio: ' + (err.message || JSON.stringify(err)));
+                // Restaura o botão em caso de erro
                 btnSubmit.innerText = 'SALVAR E PUBLICAR ANÚNCIO';
                 btnSubmit.disabled = false;
             }
         });
     </script>
+</body>
+</html>
