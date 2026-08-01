@@ -158,78 +158,6 @@
             border: 1px solid #cbd5e1;
         }
 
-        .gmb-hours-container {
-            background-color: #f8fafc;
-            border: 1px solid #e2e8f0;
-            border-radius: 8px;
-            padding: 15px;
-            margin-bottom: 25px;
-        }
-
-        .gmb-day-row {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 10px 0;
-            border-bottom: 1px solid #e2e8f0;
-            gap: 15px;
-        }
-
-        .gmb-day-row:last-child { border-bottom: none; }
-
-        .gmb-day-label {
-            width: 120px;
-            font-weight: 600;
-            font-size: 0.9rem;
-            color: #1e293b;
-        }
-
-        .gmb-toggle-box {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            width: 120px;
-        }
-
-        .switch {
-            position: relative;
-            display: inline-block;
-            width: 44px;
-            height: 24px;
-        }
-
-        .switch input { opacity: 0; width: 0; height: 0; }
-
-        .slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background-color: #cbd5e1;
-            transition: .3s;
-            border-radius: 24px;
-        }
-
-        .slider:before {
-            position: absolute;
-            content: "";
-            height: 18px;
-            width: 18px;
-            left: 3px;
-            bottom: 3px;
-            background-color: white;
-            transition: .3s;
-            border-radius: 50%;
-        }
-
-        input:checked + .slider { background-color: #2563eb; }
-        input:checked + .slider:before { transform: translateX(20px); }
-
-        .status-text {
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: #64748b;
-        }
-
         .btn-submit {
             background-color: #2563eb;
             color: #ffffff;
@@ -289,13 +217,29 @@
                         <option value="Alterosa">Alterosa</option>
                         <option value="Areado">Areado</option>
                         <option value="Boa Esperança">Boa Esperança</option>
+                        <option value="Borda da Mata">Borda da Mata</option>
+                        <option value="Cabo Verde">Cabo Verde</option>
+                        <option value="Cambuí">Cambuí</option>
+                        <option value="Campestre">Campestre</option>
+                        <option value="Campo do Meio">Campo do Meio</option>
                         <option value="Campos Gerais">Campos Gerais</option>
+                        <option value="Carmo do Rio Claro">Carmo do Rio Claro</option>
                         <option value="Fama">Fama</option>
                         <option value="Guaxupé">Guaxupé</option>
+                        <option value="Itajubá">Itajubá</option>
+                        <option value="Itaú de Minas">Itaú de Minas</option>
                         <option value="Machado">Machado</option>
+                        <option value="Muzambinho">Muzambinho</option>
+                        <option value="Paraguaçu">Paraguaçu</option>
                         <option value="Passos">Passos</option>
                         <option value="Poços de Caldas">Poços de Caldas</option>
                         <option value="Pouso Alegre">Pouso Alegre</option>
+                        <option value="Santa Rita do Sapucaí">Santa Rita do Sapucaí</option>
+                        <option value="São Lourenço">São Lourenço</option>
+                        <option value="São Sebastião do Paraíso">São Sebastião do Paraíso</option>
+                        <option value="Serrania">Serrania</option>
+                        <option value="Três Corações">Três Corações</option>
+                        <option value="Três Pontas">Três Pontas</option>
                         <option value="Varginha">Varginha</option>
                     </select>
                 </div>
@@ -305,12 +249,21 @@
                     <select id="categoria" required>
                         <option value="">Selecione a categoria...</option>
                         <option value="Academias e Esportes">Academias e Esportes</option>
+                        <option value="Advocacia e Contabilidade">Advocacia e Contabilidade</option>
                         <option value="Alimentação e Gastronomia">Alimentação e Gastronomia</option>
                         <option value="Automotivo e Peças">Automotivo e Peças</option>
+                        <option value="Bares e Distribuidoras">Bares e Distribuidoras</option>
                         <option value="Beleza e Estética">Beleza e Estética</option>
-                        <option value="Comércio e Compras">Comércio e Compras</option>
                         <option value="Casa, Construção e Reformas">Casa, Construção e Reformas</option>
+                        <option value="Comércio e Compras">Comércio e Compras</option>
+                        <option value="Cursos e Educação">Cursos e Educação</option>
+                        <option value="Eventos e Festas">Eventos e Festas</option>
+                        <option value="Farmácias e Saúde">Farmácias e Saúde</option>
+                        <option value="Imóveis e Imobiliárias">Imóveis e Imobiliárias</option>
                         <option value="Pet Shop e Veterinária">Pet Shop e Veterinária</option>
+                        <option value="Serviços Gerais e Manutenção">Serviços Gerais e Manutenção</option>
+                        <option value="Tecnologia e Celulares">Tecnologia e Celulares</option>
+                        <option value="Turismo e Hospedagem">Turismo e Hospedagem</option>
                     </select>
                 </div>
             </div>
@@ -321,24 +274,7 @@
             </div>
 
             <div class="form-section-title">
-                <i class="fa-solid fa-clock" style="color: #2563eb;"></i> 2. Horários de Funcionamento
-            </div>
-
-            <div class="gmb-hours-container">
-                <div class="gmb-day-row">
-                    <span class="gmb-day-label">Segunda-feira</span>
-                    <div class="gmb-toggle-box">
-                        <label class="switch">
-                            <input type="checkbox" id="segunda_status" checked onclick="toggleDay('segunda')">
-                            <span class="slider"></span>
-                        </label>
-                        <span class="status-text" id="segunda_text">Aberto</span>
-                    </div>
-                </div>
-                </div>
-
-            <div class="form-section-title">
-                <i class="fa-solid fa-images" style="color: #2563eb;"></i> 3. Logo da Empresa
+                <i class="fa-solid fa-images" style="color: #2563eb;"></i> 2. Logo da Empresa
             </div>
 
             <div class="form-group">
@@ -421,19 +357,6 @@
                 btnSubmit.disabled = false;
             }
         });
-
-        // Lógica de toggle para os dias
-        window.toggleDay = function(day) {
-            const checkbox = document.getElementById(`${day}_status`);
-            const text = document.getElementById(`${day}_text`);
-            if (checkbox.checked) {
-                text.innerText = 'Aberto';
-                text.style.color = '#2563eb';
-            } else {
-                text.innerText = 'Fechado';
-                text.style.color = '#64748b';
-            }
-        }
     </script>
 </body>
 </html>
