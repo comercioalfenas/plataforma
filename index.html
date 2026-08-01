@@ -1,91 +1,16 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <link rel="icon" type="image/png" href="assets/img/favicon.png">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Painel do Anunciante - Guia Alfenas</title>
-    
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <link rel="stylesheet" href="../assets/css/style.css">
-    <link rel="stylesheet" href="../assets/css/dashboard.css">
-</head>
-<body>
+<header class="main-header">
+    <div class="container nav-container">
+        <a href="index.html" class="logo">
+            <img src="assets/img/ComercioAlfenasogo.png" alt="Guia Comercial Alfenas" style="max-height: 70px; width: auto;">
+        </a>
+        
+        <nav class="nav-links">
+            <a href="index.html">INÍCIO</a>
+            <a href="planos.html">PLANOS</a>
+            <a href="dashboard/dashboard.html">PAINEL</a> </nav>
 
-    <header class="dashboard-header">
-        <div class="container dash-nav">
-            <a href="../index.html" class="logo">
-                <i class="fa-solid fa-location-dot"></i> GUIA<span>ALFENAS</span>
-            </a>
-            <div class="user-info">
-                <span>Bem-vindo ao seu painel</span>
-                <a href="../index.html" class="btn-exit"><i class="fa-solid fa-right-from-bracket"></i> Sair</a>
-            </div>
+        <div class="header-actions">
+            <a href="dashboard/cadastrar-anuncio.html" class="btn-add-listing">+ CADASTRAR ANÚNCIO</a>
         </div>
-    </header>
-
-    <main class="dashboard-main section-padding">
-        <div class="container">
-            
-            <div class="dash-welcome">
-                <div>
-                    <h2>Painel de Controle</h2>
-                    <p>Gerencie as informações e visualizações do seu anúncio comercial.</p>
-                </div>
-                <a href="cadastrar-anuncio.html" class="btn-primary-dash">
-                    <i class="fa-solid fa-plus"></i> Novo Anúncio
-                </a>
-            </div>
-
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-icon blue">
-                        <i class="fa-solid fa-eye"></i>
-                    </div>
-                    <div class="stat-info">
-                        <span>Visualizações Totais</span>
-                        <h4>0</h4>
-                    </div>
-                </div>
-
-                <div class="stat-card">
-                    <div class="stat-icon green">
-                        <i class="fa-brands fa-whatsapp"></i>
-                    </div>
-                    <div class="stat-info">
-                        <span>Cliques no WhatsApp</span>
-                        <h4>0</h4>
-                    </div>
-                </div>
-
-                <div class="stat-card">
-                    <div class="stat-icon orange">
-                        <i class="fa-solid fa-star"></i>
-                    </div>
-                    <div class="stat-info">
-                        <span>Anúncios Ativos</span>
-                        <h4>0</h4>
-                    </div>
-                </div>
-            </div>
-
-            <div class="dash-content-box">
-                <div class="box-header">
-                    <h3><i class="fa-solid fa-list-check"></i> Meus Anúncios Cadastrados</h3>
-                </div>
-
-                <div id="user-listings-container">
-                    <div class="empty-state" style="text-align: center; padding: 40px; color: #64748b;">
-                        <i class="fa-solid fa-folder-open" style="font-size: 40px; margin-bottom: 12px; color: #cbd5e1;"></i>
-                        <p>Você ainda não possui nenhum anúncio publicado.</p>
-                        <a href="cadastrar-anuncio.html" class="btn-primary-dash" style="margin-top: 15px;">Criar Anúncio Agora</a>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </main>
-
-</body>
-</html>
+    </div>
+</header>
