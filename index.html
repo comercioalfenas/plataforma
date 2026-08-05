@@ -9,6 +9,8 @@
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
     <style>
         * {
             margin: 0;
@@ -116,7 +118,7 @@
             cursor: pointer;
         }
 
-        /* AÇÕES MÓVEIS DENTRO DO MENU SANDUÍCHE (OCULTAS NO DESKTOP) */
+        /* AÇÕES MÓVEIS DENTRO DO MENU SANDUÍCHE (RODAPÉ MOBILE) */
         .mobile-auth-actions {
             display: none;
             flex-direction: column;
@@ -150,13 +152,11 @@
             color: #ffffff;
         }
 
-        /* RESPONSIVIDADE PARA CELULARES */
         @media (max-width: 900px) {
             .menu-toggle {
                 display: block;
             }
 
-            /* Esconde os botões originais do topo no mobile para irem para o rodapé do menu */
             .header-actions {
                 display: none;
             }
@@ -173,42 +173,144 @@
                 gap: 15px;
                 border-bottom: 1px solid #e2e8f0;
                 box-shadow: 0 10px 15px rgba(0,0,0,0.05);
-                display: none; /* Fechado por padrão */
+                display: none;
             }
 
             .nav-links.active {
-                display: flex; /* Abre ao clicar no sanduíche */
+                display: flex;
             }
 
-            /* Mostra os botões de ação no rodapé do menu mobile */
             .mobile-auth-actions {
                 display: flex;
             }
         }
 
-        /* 2. HERO / BANNER PRINCIPAL COM PESQUISA */
-        .hero-section {
-            background: linear-gradient(rgba(0, 0, 0, 0.50), rgba(0, 0, 0, 0.50)), 
-                        url('https://images.unsplash.com/photo-1555396273-367ea4eb4db5?q=80&w=1920&auto=format&fit=crop') center/cover no-repeat;
-            padding: 100px 20px 120px 20px;
-            text-align: center;
+        /* 1.1. BANNER ROTATIVO (CARROSSEL) */
+        .banner-carousel-section {
+            background-color: #f1f5f9;
+            padding: 25px 20px 10px 20px;
+        }
+
+        .banner-wrapper {
+            max-width: 1000px; /* Largura controlada, não ocupa a tela inteira */
+            margin: 0 auto;
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+            background-color: #0f172a;
+        }
+
+        .banner-slides-container {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+            width: 100%;
+        }
+
+        .banner-slide {
+            min-width: 100%;
+            height: 280px; /* Tamanho comprido elegante */
+            position: relative;
+        }
+
+        @media (max-width: 768px) {
+            .banner-slide {
+                height: 180px;
+            }
+        }
+
+        .banner-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .banner-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.75));
             color: #ffffff;
+            padding: 20px;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        /* Botões de navegação do carrossel */
+        .banner-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            transition: background-color 0.2s;
+            z-index: 10;
+        }
+
+        .banner-btn:hover {
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+
+        .banner-prev { left: 15px; }
+        .banner-next { right: 15px; }
+
+        /* Indicadores (bolinhas) */
+        .banner-dots {
+            position: absolute;
+            bottom: 12px;
+            right: 20px;
+            display: flex;
+            gap: 6px;
+            z-index: 10;
+        }
+
+        .banner-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .banner-dot.active {
+            background-color: #ffffff;
+            width: 20px;
+            border-radius: 5px;
+        }
+
+        /* 2. HERO / PESQUISA */
+        .hero-section {
+            background: #f1f5f9;
+            padding: 10px 20px 40px 20px;
+            text-align: center;
         }
 
         .hero-section h1 {
-            font-size: 2rem;
-            font-weight: 600;
-            margin-bottom: 35px;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.6);
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 25px;
         }
 
         .search-box-wrapper {
-            background: rgba(255, 255, 255, 0.25);
-            padding: 10px;
+            background: #ffffff;
+            padding: 15px;
             border-radius: 8px;
             max-width: 850px;
             margin: 0 auto;
-            backdrop-filter: blur(4px);
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
         }
 
         .search-form {
@@ -221,8 +323,8 @@
             flex: 1;
             min-width: 220px;
             padding: 14px 15px;
-            border: none;
-            border-radius: 4px;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
             outline: none;
             font-size: 0.9rem;
             color: #475569;
@@ -231,24 +333,24 @@
         }
 
         .btn-search {
-            background-color: #334155;
+            background-color: #2563eb;
             color: #ffffff;
             border: none;
             padding: 14px 35px;
             font-weight: 700;
-            border-radius: 4px;
+            border-radius: 6px;
             cursor: pointer;
             font-size: 0.9rem;
             transition: background-color 0.2s;
         }
 
         .btn-search:hover {
-            background-color: #1e293b;
+            background-color: #1d4ed8;
         }
 
         /* 3. CATEGORIAS COLORIDAS FLUTUANTES */
         .categories-container {
-            margin-top: -50px;
+            margin-top: -10px;
             position: relative;
             z-index: 10;
             margin-bottom: 60px;
@@ -435,7 +537,7 @@
     <header class="main-header">
         <div class="container nav-container">
             <a href="index.html" class="logo">
-                <img src="assets/img/ComercioAlfenasogo.png" alt="Guia Comercial Alfenas" style="max-height: 70px; width: auto;">
+                <img src="assets/img/ComercioAlfenasogo.png" alt="Guia Comercial Alfenas" style="max-height: 50px; width: auto;">
             </a>
             
             <button class="menu-toggle" id="menuToggle" aria-label="Abrir Menu">
@@ -462,13 +564,50 @@
         </div>
     </header>
 
+    <section class="banner-carousel-section">
+        <div class="banner-wrapper">
+            <div class="banner-slides-container" id="bannerSlides">
+                <div class="banner-slide">
+                    <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?q=80&w=1200&auto=format&fit=crop" alt="Banner 1">
+                    <div class="banner-caption">Divulgue seu negócio para milhares de clientes na região!</div>
+                </div>
+                <div class="banner-slide">
+                    <img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?q=80&w=1200&auto=format&fit=crop" alt="Banner 2">
+                    <div class="banner-caption">As melhores lojas e comércios locais reunidos em um só lugar.</div>
+                </div>
+                <div class="banner-slide">
+                    <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=1200&auto=format&fit=crop" alt="Banner 3">
+                    <div class="banner-caption">Gastronomia, bares e restaurantes com descontos exclusivos.</div>
+                </div>
+                <div class="banner-slide">
+                    <img src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?q=80&w=1200&auto=format&fit=crop" alt="Banner 4">
+                    <div class="banner-caption">Eventos, lazer e entretenimento para toda a família.</div>
+                </div>
+                <div class="banner-slide">
+                    <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=1200&auto=format&fit=crop" alt="Banner 5">
+                    <div class="banner-caption">Profissionais liberais e prestadores de serviços de confiança.</div>
+                </div>
+            </div>
+
+            <button class="banner-btn banner-prev" id="bannerPrev"><i class="fa-solid fa-chevron-left"></i></button>
+            <button class="banner-btn banner-next" id="bannerNext"><i class="fa-solid fa-chevron-right"></i></button>
+
+            <div class="banner-dots" id="bannerDots">
+                <span class="banner-dot active" data-index="0"></span>
+                <span class="banner-dot" data-index="1"></span>
+                <span class="banner-dot" data-index="2"></span>
+                <span class="banner-dot" data-index="3"></span>
+                <span class="banner-dot" data-index="4"></span>
+            </div>
+        </div>
+    </section>
+
     <section class="hero-section">
         <div class="container">
-            <h1>Os melhores lugares para comer, comprar e se divertir você encontra aqui.</h1>
+            <h1>Encontre os melhores estabelecimentos da região</h1>
             
             <div class="search-box-wrapper">
                 <form class="search-form" id="searchForm">
-                    
                     <select name="cidade" id="searchCidade">
                         <option value="">Selecione a cidade</option>
                         <option value="alfenas" selected>Alfenas</option>
@@ -563,12 +702,11 @@
     <script type="module">
         import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
 
-        // Configurações do Supabase
         const SUPABASE_URL = 'https://sdwpoxtoosaseymlbgcn.supabase.co';
         const SUPABASE_ANON_KEY = 'sb_publishable_qxJw3aamUcr9jI8m25OQrw_YdqBAn0p';
         const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-        // Script para abrir e fechar o menu sanduíche em telas menores
+        // 1. Menu Sanduíche
         const menuToggle = document.getElementById('menuToggle');
         const navLinks = document.getElementById('navLinks');
 
@@ -584,8 +722,60 @@
             }
         });
 
-        // Função para carregar anúncios do Supabase
-        async function carregarAnuncios(cidadeFiltro = 'alfenas', categoriaFiltro = '') {
+        // 2. Lógica do Carrossel / Banner Rotativo
+        const slidesContainer = document.getElementById('bannerSlides');
+        const slides = document.querySelectorAll('.banner-slide');
+        const dots = document.querySelectorAll('.banner-dot');
+        const prevBtn = document.getElementById('bannerPrev');
+        const nextBtn = document.getElementById('bannerNext');
+        
+        let currentIndex = 0;
+        const totalSlides = slides.length;
+
+        function updateSlider() {
+            slidesContainer.style.transform = `translateX(-${currentIndex * 100}%)`;
+            dots.forEach((dot, idx) => {
+                dot.classList.toggle('active', idx === currentIndex);
+            });
+        }
+
+        function nextSlide() {
+            currentIndex = (currentIndex + 1) % totalSlides;
+            updateSlider();
+        }
+
+        function prevSlide() {
+            currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
+            updateSlider();
+        }
+
+        nextBtn.addEventListener('click', nextSlide);
+        prevBtn.addEventListener('click', prevSlide);
+
+        dots.forEach(dot => {
+            dot.addEventListener('click', (e) => {
+                currentIndex = parseInt(e.target.getAttribute('data-index'));
+                updateSlider();
+            });
+        });
+
+        // Rotação automática a cada 4 segundos
+        let autoSlide = setInterval(nextSlide, 4000);
+
+        // Pausa ao passar o mouse por cima do banner
+        const bannerWrapper = document.querySelector('.banner-wrapper');
+        bannerWrapper.addEventListener('mouseenter', () => clearInterval(autoSlide));
+        bannerWrapper.addEventListener('mouseleave', () => autoSlide = setInterval(nextSlide, 4000));
+
+        // 3. Carregamento de Anúncios do Supabase
+        const urlParams = new URLSearchParams(window.location.search);
+        const cidadeUrl = urlParams.get('cidade') || 'alfenas';
+        const categoriaUrl = urlParams.get('categoria') || '';
+
+        if(document.getElementById('searchCidade')) document.getElementById('searchCidade').value = cidadeUrl;
+        if(document.getElementById('searchCategoria')) document.getElementById('searchCategoria').value = categoriaUrl;
+
+        async function carregarAnuncios(cidadeFiltro, categoriaFiltro) {
             const container = document.getElementById('listingsContainer');
             container.innerHTML = '<p style="text-align: center; color: #64748b; grid-column: 1 / -1;">Buscando estabelecimentos...</p>';
 
@@ -641,24 +831,21 @@
             }
         }
 
-        // Executa a busca inicial ao carregar a página
-        carregarAnuncios();
+        carregarAnuncios(cidadeUrl, categoriaUrl);
 
-        // Manipula o envio do formulário de busca
         document.getElementById('searchForm').addEventListener('submit', (e) => {
             e.preventDefault();
             const cidade = document.getElementById('searchCidade').value;
             const categoria = document.getElementById('searchCategoria').value;
-            carregarAnuncios(cidade, categoria);
+            window.location.href = `index.html?cidade=${encodeURIComponent(cidade)}&categoria=${encodeURIComponent(categoria)}#anuncios`;
         });
+    </script>
 
-        // Torna a função global para os botões coloridos de categoria
-        window.filtrarCategoria = function(nomeCategoria) {
+    <script>
+        function filtrarCategoria(nomeCategoria) {
             const selectCidade = document.getElementById('searchCidade');
             let cidade = (selectCidade && selectCidade.value) ? selectCidade.value : 'alfenas';
-            document.getElementById('searchCategoria').value = nomeCategoria;
-            carregarAnuncios(cidade, nomeCategoria);
-            document.getElementById('anuncios').scrollIntoView({ behavior: 'smooth' });
+            window.location.href = `index.html?cidade=${encodeURIComponent(cidade)}&categoria=${encodeURIComponent(nomeCategoria)}#anuncios`;
         }
     </script>
 </body>
