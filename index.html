@@ -106,6 +106,51 @@
             background-color: #000000;
         }
 
+        /* BOTÃO SANDUÍCHE (OCULTO NO DESKTOP) */
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: #0f172a;
+            cursor: pointer;
+        }
+
+        /* RESPONSIVIDADE DO MENU PARA CELULARES */
+        @media (max-width: 900px) {
+            .menu-toggle {
+                display: block;
+            }
+
+            .nav-links {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background-color: #ffffff;
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 20px 30px;
+                gap: 15px;
+                border-bottom: 1px solid #e2e8f0;
+                box-shadow: 0 10px 15px rgba(0,0,0,0.05);
+                display: none; /* Fechado por padrão */
+            }
+
+            .nav-links.active {
+                display: flex; /* Abre ao ativar a classe */
+            }
+
+            .header-actions {
+                gap: 8px;
+            }
+
+            .btn-add-listing {
+                padding: 8px 12px;
+                font-size: 0.75rem;
+            }
+        }
+
         /* 2. HERO / BANNER PRINCIPAL COM PESQUISA */
         .hero-section {
             background: linear-gradient(rgba(0, 0, 0, 0.50), rgba(0, 0, 0, 0.50)), 
@@ -358,9 +403,14 @@
                 <img src="assets/img/ComercioAlfenasogo.png" alt="Guia Comercial Alfenas" style="max-height: 70px; width: auto;">
             </a>
             
-            <nav class="nav-links">
+            <button class="menu-toggle" id="menuToggle" aria-label="Abrir Menu">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+
+            <nav class="nav-links" id="navLinks">
                 <a href="index.html">INÍCIO</a>
                 <a href="planos.html">PLANOS</a>
+                <a href="dashboard/dashboard.html">PAINEL</a>
                 <a href="#">SOBRE NÓS</a>
                 <a href="#">FALE CONOSCO</a>
             </nav>
@@ -478,17 +528,31 @@
         const SUPABASE_ANON_KEY = 'sb_publishable_qxJw3aamUcr9jI8m25OQrw_YdqBAn0p';
         const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
+        // Script para abrir e fechar o menu sanduíche em telas menores
+        const menuToggle = document.getElementById('menuToggle');
+        const navLinks = document.getElementById('navLinks');
+
+        menuToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            const icon = menuToggle.querySelector('i');
+            if (navLinks.classList.contains('active')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-xmark');
+            } else {
+                icon.classList.remove('fa-xmark');
+                icon.classList.add('fa-bars');
+            }
+        });
+
         // Função para carregar anúncios do Supabase
         async function carregarAnuncios(cidadeFiltro = 'alfenas', categoriaFiltro = '') {
             const container = document.getElementById('listingsContainer');
             container.innerHTML = '<p style="text-align: center; color: #64748b; grid-column: 1 / -1;">Buscando estabelecimentos...</p>';
 
             try {
-                // Monta a query
                 let query = supabase.from('anuncios').select('*');
 
                 if (cidadeFiltro) {
-                    // Cidades são salvas em minúsculo no banco
                     query = query.eq('cidade', cidadeFiltro.toLowerCase());
                 }
                 if (categoriaFiltro) {
@@ -504,7 +568,7 @@
                     return;
                 }
 
-                container.innerHTML = ''; // Limpa o container
+                container.innerHTML = ''; 
                 data.forEach(anuncio => {
                     const card = document.createElement('div');
                     card.className = 'listing-card';
@@ -554,7 +618,6 @@
             let cidade = (selectCidade && selectCidade.value) ? selectCidade.value : 'alfenas';
             document.getElementById('searchCategoria').value = nomeCategoria;
             carregarAnuncios(cidade, nomeCategoria);
-            // Rola até os anúncios
             document.getElementById('anuncios').scrollIntoView({ behavior: 'smooth' });
         }
     </script>
