@@ -116,10 +116,49 @@
             cursor: pointer;
         }
 
-        /* RESPONSIVIDADE DO MENU PARA CELULARES */
+        /* AÇÕES MÓVEIS DENTRO DO MENU SANDUÍCHE (OCULTAS NO DESKTOP) */
+        .mobile-auth-actions {
+            display: none;
+            flex-direction: column;
+            gap: 10px;
+            width: 100%;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .mobile-btn-login, .mobile-btn-add {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px;
+            border-radius: 6px;
+            font-weight: 700;
+            text-decoration: none;
+            font-size: 0.85rem;
+            text-align: center;
+        }
+
+        .mobile-btn-login {
+            background-color: #2563eb;
+            color: #ffffff;
+        }
+
+        .mobile-btn-add {
+            background-color: #27272a;
+            color: #ffffff;
+        }
+
+        /* RESPONSIVIDADE PARA CELULARES */
         @media (max-width: 900px) {
             .menu-toggle {
                 display: block;
+            }
+
+            /* Esconde os botões originais do topo no mobile para irem para o rodapé do menu */
+            .header-actions {
+                display: none;
             }
 
             .nav-links {
@@ -138,16 +177,12 @@
             }
 
             .nav-links.active {
-                display: flex; /* Abre ao ativar a classe */
+                display: flex; /* Abre ao clicar no sanduíche */
             }
 
-            .header-actions {
-                gap: 8px;
-            }
-
-            .btn-add-listing {
-                padding: 8px 12px;
-                font-size: 0.75rem;
+            /* Mostra os botões de ação no rodapé do menu mobile */
+            .mobile-auth-actions {
+                display: flex;
             }
         }
 
@@ -413,6 +448,11 @@
                 <a href="dashboard/dashboard.html">PAINEL</a>
                 <a href="#">SOBRE NÓS</a>
                 <a href="#">FALE CONOSCO</a>
+
+                <div class="mobile-auth-actions">
+                    <a href="auth/login.html" class="mobile-btn-login"><i class="fa-solid fa-key"></i> ENTRAR / LOGIN</a>
+                    <a href="dashboard/cadastrar-anuncio.html" class="mobile-btn-add">+ CADASTRAR ANÚNCIO</a>
+                </div>
             </nav>
 
             <div class="header-actions">
