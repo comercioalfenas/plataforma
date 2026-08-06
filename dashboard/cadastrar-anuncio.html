@@ -324,35 +324,40 @@
             btnSubmit.innerText = 'Salvando no Banco de Dados...';
             btnSubmit.disabled = true;
 
-            // Monta o objeto com os dados
+            // Monta o objeto com os dados exatos
             const novoAnuncio = {
                 titulo: document.getElementById('nomeEmpresa').value.trim(),
                 cidade: document.getElementById('cidade').value.toLowerCase().trim(),
                 categoria: document.getElementById('categoria').value.trim(),
                 descricao: document.getElementById('descricao').value.trim(),
-                // Usa imagem padrão se o usuário não subir logo
                 imagem_url: logoDataUrl || 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?q=80&w=600&auto=format&fit=crop',
-                status: 'ABERTO AGORA' // Status padrão
+                status: 'ABERTO AGORA'
             };
 
             try {
-                // Tenta inserir na tabela 'anuncios'
                 const { data, error } = await supabase
                     .from('anuncios')
-                    .insert([novoAnuncio]);
+                    .insert([novoAnuncio])
+                    .select();
 
                 if (error) {
                     throw error;
                 }
 
                 alert('Anúncio cadastrado e publicado com sucesso no Supabase!');
-                // Redireciona para a home
                 window.location.href = '../index.html';
 
             } catch (err) {
                 console.error('Erro detalhado do Supabase:', err);
-                alert('Erro ao salvar o anúncio: ' + (err.message || JSON.stringify(err)));
-                // Restaura o botão em caso de erro
+                
+                // Mensagem detalhada para identificar se é bloqueio de RLS
+                let mensagemErro = err.message || JSON.stringify(err);
+                if (mensagemErro.includes('Failed to fetch')) {
+                    mensagemErro = "Falha de comunicação com o Supabase. Verifique se as políticas de segurança (RLS) da tabela 'anuncios' permitem inserções públicas ou se a URL do projeto está correta.";
+                }
+                
+                alert('Erro ao salvar o anúncio: ' + mensagemErro);
+                
                 btnSubmit.innerText = 'SALVAR E PUBLICAR ANÚNCIO';
                 btnSubmit.disabled = false;
             }
