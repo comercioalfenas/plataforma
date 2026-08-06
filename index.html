@@ -220,10 +220,12 @@
         }
 
         .banner-slide img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* ALTERADO DE 'cover' PARA 'contain' */
+    background-color: #0f172a; /* Cor de fundo caso a imagem seja menor que o espaço */
+    display: block;
+}
 
         .banner-caption {
             position: absolute;
@@ -568,23 +570,23 @@
         <div class="banner-wrapper">
             <div class="banner-slides-container" id="bannerSlides">
                 <div class="banner-slide">
-                    <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?q=80&w=1200&auto=format&fit=crop" alt="Banner 1">
+                    <img src="assets\img\Banner0.png" alt="Banner 1">
                     <div class="banner-caption">Divulgue seu negócio para milhares de clientes na região!</div>
                 </div>
                 <div class="banner-slide">
-                    <img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?q=80&w=1200&auto=format&fit=crop" alt="Banner 2">
-                    <div class="banner-caption">As melhores lojas e comércios locais reunidos em um só lugar.</div>
-                </div>
-                <div class="banner-slide">
-                    <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=1200&auto=format&fit=crop" alt="Banner 3">
+                    <img src="assets\img\Banner2.png" alt="Banner 3">
                     <div class="banner-caption">Gastronomia, bares e restaurantes com descontos exclusivos.</div>
                 </div>
                 <div class="banner-slide">
-                    <img src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?q=80&w=1200&auto=format&fit=crop" alt="Banner 4">
+                    <img src="assets\img\Banner3.png" alt="Banner 4">
                     <div class="banner-caption">Eventos, lazer e entretenimento para toda a família.</div>
                 </div>
                 <div class="banner-slide">
-                    <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=1200&auto=format&fit=crop" alt="Banner 5">
+                    <img src="assets\img\Banner4.png" alt="Banner 5">
+                    <div class="banner-caption">Profissionais liberais e prestadores de serviços de confiança.</div>
+                </div>
+                <div class="banner-slide">
+                    <img src="assets\img\Banner5.png" alt="Banner 5">
                     <div class="banner-caption">Profissionais liberais e prestadores de serviços de confiança.</div>
                 </div>
             </div>
