@@ -53,6 +53,16 @@
             gap: 8px;
         }
 
+        /* Botão do Menu Sanduiche (Oculto no Desktop) */
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: #0f172a;
+            cursor: pointer;
+        }
+
         .nav-links {
             display: flex;
             align-items: center;
@@ -106,6 +116,33 @@
 
         .btn-add-listing:hover {
             background-color: #000000;
+        }
+
+        /* RESPONSIVIDADE DO MENU MOBILE */
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background-color: #ffffff;
+                border-bottom: 1px solid #e2e8f0;
+                box-shadow: 0 10px 15px rgba(0,0,0,0.05);
+                padding: 20px;
+                gap: 15px;
+                text-align: center;
+                z-index: 999;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
         }
 
         /* 1.1. BANNER ROTATIVO (CARROSSEL INSTITUCIONAL) */
@@ -509,6 +546,7 @@
             </div>
         </div>
     </header>
+
     <section class="banner-carousel-section">
         <div class="banner-wrapper">
             <div class="banner-slides-container" id="bannerSlides">
@@ -686,6 +724,34 @@
         const SUPABASE_URL = 'https://sdwpoxtoosaseymlbgcn.supabase.co';
         const SUPABASE_ANON_KEY = 'sb_publishable_qxJw3aamUcr9jI8m25OQrw_YdqBAn0p';
         const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        // Lógica do Menu Sanduiche Mobile
+        const menuToggle = document.getElementById('menuToggle');
+        const navLinks = document.getElementById('navLinks');
+
+        if (menuToggle && navLinks) {
+            menuToggle.addEventListener('click', () => {
+                navLinks.classList.toggle('active');
+                const icon = menuToggle.querySelector('i');
+                if (navLinks.classList.contains('active')) {
+                    icon.classList.remove('fa-bars');
+                    icon.classList.add('fa-xmark');
+                } else {
+                    icon.classList.remove('fa-xmark');
+                    icon.classList.add('fa-bars');
+                }
+            });
+
+            // Fecha o menu ao clicar em algum link
+            navLinks.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    navLinks.classList.remove('active');
+                    const icon = menuToggle.querySelector('i');
+                    icon.classList.remove('fa-xmark');
+                    icon.classList.add('fa-bars');
+                });
+            });
+        }
 
         // 1. Lógica do Carrossel / Banner Rotativo
         const slidesContainer = document.getElementById('bannerSlides');
