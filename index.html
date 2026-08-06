@@ -53,16 +53,6 @@
             gap: 8px;
         }
 
-        /* Botão do Menu Sanduiche (Oculto no Desktop) */
-        .menu-toggle {
-            display: none;
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            color: #0f172a;
-            cursor: pointer;
-        }
-
         .nav-links {
             display: flex;
             align-items: center;
@@ -81,6 +71,18 @@
 
         .nav-links a:hover {
             color: #e11d48;
+        }
+
+        /* Botão do menu sanduíche (escondido no desktop) */
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.4rem;
+            color: #27272a;
+            cursor: pointer;
+            padding: 6px 10px;
+            z-index: 1100;
         }
 
         .header-actions {
@@ -116,33 +118,6 @@
 
         .btn-add-listing:hover {
             background-color: #000000;
-        }
-
-        /* RESPONSIVIDADE DO MENU MOBILE */
-        @media (max-width: 768px) {
-            .menu-toggle {
-                display: block;
-            }
-
-            .nav-links {
-                display: none;
-                flex-direction: column;
-                position: absolute;
-                top: 100%;
-                left: 0;
-                width: 100%;
-                background-color: #ffffff;
-                border-bottom: 1px solid #e2e8f0;
-                box-shadow: 0 10px 15px rgba(0,0,0,0.05);
-                padding: 20px;
-                gap: 15px;
-                text-align: center;
-                z-index: 999;
-            }
-
-            .nav-links.active {
-                display: flex;
-            }
         }
 
         /* 1.1. BANNER ROTATIVO (CARROSSEL INSTITUCIONAL) */
@@ -219,10 +194,17 @@
                 box-shadow: none !important;
             }
             .banner-slide {
-                height: 220px;
+                height: auto;
+                aspect-ratio: 16 / 9;
             }
             .banner-caption h3 { font-size: 1rem; }
             .banner-caption p { font-size: 0.75rem; }
+        }
+
+        @media (max-width: 480px) {
+            .banner-slide {
+                aspect-ratio: 4 / 3;
+            }
         }
 
         /* Botões de navegação do carrossel */
@@ -510,6 +492,50 @@
             color: #e11d48;
         }
 
+        /* MENU SANDUÍCHE - MOBILE */
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+                order: 2;
+            }
+
+            .nav-container {
+                flex-wrap: wrap;
+            }
+
+            .logo {
+                order: 1;
+            }
+
+            /* No mobile, os botões saem do header e vão para o rodapé */
+            .main-header .header-actions {
+                display: none;
+            }
+
+            .nav-links {
+                order: 3;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0;
+                width: 100%;
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.3s ease-in-out;
+            }
+
+            .nav-links.active {
+                max-height: 300px;
+                margin-top: 15px;
+                border-top: 1px solid #e2e8f0;
+            }
+
+            .nav-links a {
+                width: 100%;
+                padding: 14px 5px;
+                border-bottom: 1px solid #f1f5f9;
+            }
+        }
+
         /* FOOTER */
         .main-footer {
             background-color: #0f172a;
@@ -518,6 +544,26 @@
             text-align: center;
             font-size: 0.85rem;
             border-top: 1px solid #1e293b;
+        }
+
+        /* Ações (Entrar / Cadastrar Anúncio) dentro do rodapé — só aparecem no mobile */
+        .footer-actions {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .footer-actions {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: 12px;
+                margin-bottom: 20px;
+            }
+
+            .footer-actions .btn-add-listing {
+                padding: 10px 20px;
+                font-size: 0.8rem;
+            }
         }
     </style>
 </head>
@@ -546,7 +592,6 @@
             </div>
         </div>
     </header>
-
     <section class="banner-carousel-section">
         <div class="banner-wrapper">
             <div class="banner-slides-container" id="bannerSlides">
@@ -714,6 +759,10 @@
 
     <footer class="main-footer">
         <div class="container">
+            <div class="footer-actions">
+                <a href="auth/login.html" class="btn-icon-login" title="Entrar"><i class="fa-solid fa-key"></i></a>
+                <a href="planos.html" class="btn-add-listing">+ CADASTRAR ANÚNCIO</a>
+            </div>
             <p>&copy; 2026 Guia Comercial Alfenas e Região. Todos os direitos reservados: Mesquita SaaS.</p>
         </div>
     </footer>
@@ -724,34 +773,6 @@
         const SUPABASE_URL = 'https://sdwpoxtoosaseymlbgcn.supabase.co';
         const SUPABASE_ANON_KEY = 'sb_publishable_qxJw3aamUcr9jI8m25OQrw_YdqBAn0p';
         const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-        // Lógica do Menu Sanduiche Mobile
-        const menuToggle = document.getElementById('menuToggle');
-        const navLinks = document.getElementById('navLinks');
-
-        if (menuToggle && navLinks) {
-            menuToggle.addEventListener('click', () => {
-                navLinks.classList.toggle('active');
-                const icon = menuToggle.querySelector('i');
-                if (navLinks.classList.contains('active')) {
-                    icon.classList.remove('fa-bars');
-                    icon.classList.add('fa-xmark');
-                } else {
-                    icon.classList.remove('fa-xmark');
-                    icon.classList.add('fa-bars');
-                }
-            });
-
-            // Fecha o menu ao clicar em algum link
-            navLinks.querySelectorAll('a').forEach(link => {
-                link.addEventListener('click', () => {
-                    navLinks.classList.remove('active');
-                    const icon = menuToggle.querySelector('i');
-                    icon.classList.remove('fa-xmark');
-                    icon.classList.add('fa-bars');
-                });
-            });
-        }
 
         // 1. Lógica do Carrossel / Banner Rotativo
         const slidesContainer = document.getElementById('bannerSlides');
@@ -872,6 +893,29 @@
     </script>
 
     <script>
+        // Menu sanduíche (mobile)
+        const menuToggle = document.getElementById('menuToggle');
+        const navLinks = document.getElementById('navLinks');
+
+        menuToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            const isOpen = navLinks.classList.contains('active');
+            const icon = menuToggle.querySelector('i');
+            icon.classList.toggle('fa-bars', !isOpen);
+            icon.classList.toggle('fa-xmark', isOpen);
+            menuToggle.setAttribute('aria-expanded', isOpen);
+        });
+
+        // Fecha o menu ao clicar em um link
+        navLinks.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+                const icon = menuToggle.querySelector('i');
+                icon.classList.add('fa-bars');
+                icon.classList.remove('fa-xmark');
+            });
+        });
+
         function filtrarCategoria(nomeCategoria) {
             const selectCidade = document.getElementById('searchCidade');
             let cidade = (selectCidade && selectCidade.value) ? selectCidade.value : 'alfenas';
