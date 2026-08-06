@@ -193,22 +193,18 @@
                 border-radius: 0 !important;
                 box-shadow: none !important;
             }
+            .banner-slides-container {
+                align-items: flex-start;
+            }
             .banner-slide {
                 height: auto;
-                aspect-ratio: 16 / 9;
             }
             .banner-slide img {
-                object-fit: contain;
-                background-color: #0f172a;
+                height: auto;
+                object-fit: cover;
             }
             .banner-caption h3 { font-size: 1rem; }
             .banner-caption p { font-size: 0.75rem; }
-        }
-
-        @media (max-width: 480px) {
-            .banner-slide {
-                aspect-ratio: 1 / 1;
-            }
         }
 
         /* Botões de navegação do carrossel */
@@ -784,15 +780,35 @@
         const dots = document.querySelectorAll('.banner-dot');
         const prevBtn = document.getElementById('bannerPrev');
         const nextBtn = document.getElementById('bannerNext');
+        const bannerWrapper = document.querySelector('.banner-wrapper');
         
         let currentIndex = 0;
         const totalSlides = slides.length;
+
+        // Ajusta a altura do banner à proporção real da imagem ativa (só no mobile)
+        function ajustarAlturaBanner() {
+            if (window.innerWidth > 768) {
+                bannerWrapper.style.height = '';
+                return;
+            }
+            const img = slides[currentIndex].querySelector('img');
+            const aplicarAltura = () => {
+                const ratio = img.naturalHeight / img.naturalWidth;
+                bannerWrapper.style.height = (bannerWrapper.offsetWidth * ratio) + 'px';
+            };
+            if (img.complete && img.naturalWidth) {
+                aplicarAltura();
+            } else {
+                img.addEventListener('load', aplicarAltura, { once: true });
+            }
+        }
 
         function updateSlider() {
             slidesContainer.style.transform = `translateX(-${currentIndex * 100}%)`;
             dots.forEach((dot, idx) => {
                 dot.classList.toggle('active', idx === currentIndex);
             });
+            ajustarAlturaBanner();
         }
 
         function nextSlide() {
@@ -815,10 +831,12 @@
             });
         });
 
+        window.addEventListener('resize', ajustarAlturaBanner);
+        ajustarAlturaBanner();
+
         // Rotação automática a cada 5 segundos
         let autoSlide = setInterval(nextSlide, 5000);
 
-        const bannerWrapper = document.querySelector('.banner-wrapper');
         bannerWrapper.addEventListener('mouseenter', () => clearInterval(autoSlide));
         bannerWrapper.addEventListener('mouseleave', () => autoSlide = setInterval(nextSlide, 5000));
 
