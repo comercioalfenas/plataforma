@@ -197,13 +197,17 @@
                 height: auto;
                 aspect-ratio: 16 / 9;
             }
+            .banner-slide img {
+                object-fit: contain;
+                background-color: #0f172a;
+            }
             .banner-caption h3 { font-size: 1rem; }
             .banner-caption p { font-size: 0.75rem; }
         }
 
         @media (max-width: 480px) {
             .banner-slide {
-                aspect-ratio: 4 / 3;
+                aspect-ratio: 1 / 1;
             }
         }
 
