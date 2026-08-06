@@ -108,96 +108,19 @@
             background-color: #000000;
         }
 
-        /* BOTÃO SANDUÍCHE (OCULTO NO DESKTOP) */
-        .menu-toggle {
-            display: none;
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            color: #0f172a;
-            cursor: pointer;
-        }
-
-        /* AÇÕES MÓVEIS DENTRO DO MENU SANDUÍCHE (RODAPÉ MOBILE) */
-        .mobile-auth-actions {
-            display: none;
-            flex-direction: column;
-            gap: 10px;
-            width: 100%;
-            margin-top: 15px;
-            padding-top: 15px;
-            border-top: 1px solid #e2e8f0;
-        }
-
-        .mobile-btn-login, .mobile-btn-add {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            padding: 12px;
-            border-radius: 6px;
-            font-weight: 700;
-            text-decoration: none;
-            font-size: 0.85rem;
-            text-align: center;
-        }
-
-        .mobile-btn-login {
-            background-color: #2563eb;
-            color: #ffffff;
-        }
-
-        .mobile-btn-add {
-            background-color: #27272a;
-            color: #ffffff;
-        }
-
-        @media (max-width: 900px) {
-            .menu-toggle {
-                display: block;
-            }
-
-            .header-actions {
-                display: none;
-            }
-
-            .nav-links {
-                position: absolute;
-                top: 100%;
-                left: 0;
-                width: 100%;
-                background-color: #ffffff;
-                flex-direction: column;
-                align-items: flex-start;
-                padding: 20px 30px;
-                gap: 15px;
-                border-bottom: 1px solid #e2e8f0;
-                box-shadow: 0 10px 15px rgba(0,0,0,0.05);
-                display: none;
-            }
-
-            .nav-links.active {
-                display: flex;
-            }
-
-            .mobile-auth-actions {
-                display: flex;
-            }
-        }
-
-        /* 1.1. BANNER ROTATIVO (CARROSSEL) */
+        /* 1.1. BANNER ROTATIVO (CARROSSEL INSTITUCIONAL) */
         .banner-carousel-section {
             background-color: #f1f5f9;
-            padding: 25px 20px 10px 20px;
+            padding: 30px 20px 20px 20px;
         }
 
         .banner-wrapper {
-            max-width: 1000px; /* Largura controlada, não ocupa a tela inteira */
+            max-width: 1200px;
             margin: 0 auto;
             position: relative;
             border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
             background-color: #0f172a;
         }
 
@@ -209,34 +132,60 @@
 
         .banner-slide {
             min-width: 100%;
-            height: 280px; /* Tamanho comprido elegante */
+            height: 420px;
             position: relative;
-        }
-
-        @media (max-width: 768px) {
-            .banner-slide {
-                height: 180px;
-            }
+            background-color: #0f172a;
         }
 
         .banner-slide img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain; /* ALTERADO DE 'cover' PARA 'contain' */
-    background-color: #0f172a; /* Cor de fundo caso a imagem seja menor que o espaço */
-    display: block;
-}
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
 
         .banner-caption {
             position: absolute;
             bottom: 0;
             left: 0;
             right: 0;
-            background: linear-gradient(transparent, rgba(0, 0, 0, 0.75));
+            background: linear-gradient(transparent, rgba(15, 23, 42, 0.9));
             color: #ffffff;
-            padding: 20px;
-            font-size: 1rem;
-            font-weight: 600;
+            padding: 25px 20px;
+            text-align: left;
+        }
+
+        .banner-caption h3 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 6px;
+            letter-spacing: 0.5px;
+            color: #f8fafc;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .banner-caption p {
+            font-size: 0.9rem;
+            color: #cbd5e1;
+            font-weight: 400;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+        }
+
+        /* AJUSTES ESPECÍFICOS PARA CELULAR (MOBILE) */
+        @media (max-width: 768px) {
+            .banner-carousel-section {
+                padding: 0 !important;
+            }
+            .banner-wrapper {
+                max-width: 100% !important;
+                border-radius: 0 !important;
+                box-shadow: none !important;
+            }
+            .banner-slide {
+                height: 220px;
+            }
+            .banner-caption h3 { font-size: 1rem; }
+            .banner-caption p { font-size: 0.75rem; }
         }
 
         /* Botões de navegação do carrossel */
@@ -269,7 +218,7 @@
         /* Indicadores (bolinhas) */
         .banner-dots {
             position: absolute;
-            bottom: 12px;
+            top: 15px;
             right: 20px;
             display: flex;
             gap: 6px;
@@ -280,14 +229,14 @@
             width: 10px;
             height: 10px;
             border-radius: 50%;
-            background-color: rgba(255, 255, 255, 0.5);
+            background-color: rgba(255, 255, 255, 0.4);
             cursor: pointer;
             transition: background-color 0.2s;
         }
 
         .banner-dot.active {
             background-color: #ffffff;
-            width: 20px;
+            width: 22px;
             border-radius: 5px;
         }
 
@@ -322,8 +271,8 @@
         }
 
         .search-form select {
-            flex: 1;
-            min-width: 220px;
+            flex: 1 1 250px;
+            width: 100%;
             padding: 14px 15px;
             border: 1px solid #cbd5e1;
             border-radius: 6px;
@@ -335,10 +284,11 @@
         }
 
         .btn-search {
+            flex: 1 1 150px;
             background-color: #2563eb;
             color: #ffffff;
             border: none;
-            padding: 14px 35px;
+            padding: 14px 25px;
             font-weight: 700;
             border-radius: 6px;
             cursor: pointer;
@@ -539,29 +489,19 @@
     <header class="main-header">
         <div class="container nav-container">
             <a href="index.html" class="logo">
-                <img src="assets/img/ComercioAlfenasogo.png" alt="Guia Comercial Alfenas" style="max-height: 50px; width: auto;">
+                <img src="assets/img/ComercioAlfenasogo.png" alt="Guia Comercial Alfenas" style="max-height: 70px; width: auto;">
             </a>
             
-            <button class="menu-toggle" id="menuToggle" aria-label="Abrir Menu">
-                <i class="fa-solid fa-bars"></i>
-            </button>
-
-            <nav class="nav-links" id="navLinks">
+            <nav class="nav-links">
                 <a href="index.html">INÍCIO</a>
                 <a href="planos.html">PLANOS</a>
-                <a href="dashboard/dashboard.html">PAINEL</a>
                 <a href="#">SOBRE NÓS</a>
                 <a href="#">FALE CONOSCO</a>
-
-                <div class="mobile-auth-actions">
-                    <a href="auth/login.html" class="mobile-btn-login"><i class="fa-solid fa-key"></i> ENTRAR / LOGIN</a>
-                    <a href="dashboard/cadastrar-anuncio.html" class="mobile-btn-add">+ CADASTRAR ANÚNCIO</a>
-                </div>
             </nav>
 
             <div class="header-actions">
                 <a href="auth/login.html" class="btn-icon-login" title="Entrar"><i class="fa-solid fa-key"></i></a>
-                <a href="dashboard/cadastrar-anuncio.html" class="btn-add-listing">+ CADASTRAR ANÚNCIO</a>
+                <a href="planos.html" class="btn-add-listing">+ CADASTRAR ANÚNCIO</a>
             </div>
         </div>
     </header>
@@ -569,23 +509,47 @@
     <section class="banner-carousel-section">
         <div class="banner-wrapper">
             <div class="banner-slides-container" id="bannerSlides">
-                 <div class="banner-slide">
-                    <img src="assets\img\Banner.png" alt="Banner">
+                <div class="banner-slide">
+                    <img src="assets/img/Banner.png" alt="Onde a tradição encontra o futuro">
+                    <div class="banner-caption">
+                        <h3>Onde a tradição encontra o futuro.</h3>
+                        <p>Conectando você ao desenvolvimento e à força do nosso comércio local em Alfenas e região.</p>
+                    </div>
                 </div>
                 <div class="banner-slide">
-                    <img src="assets\img\Banner0.png" alt="Banner 1">
-                </div>
-                               <div class="banner-slide">
-                    <img src="assets\img\Banner2.png" alt="Banner 2">
-                </div>
-                <div class="banner-slide">
-                    <img src="assets\img\Banner3.png" alt="Banner 3">
+                    <img src="assets/img/Banner0.png" alt="Onde a tradição encontra o futuro">
+                    <div class="banner-caption">
+                        <h3>Onde a tradição encontra o futuro.</h3>
+                        <p>Conectando você ao desenvolvimento e à força do nosso comércio local em Alfenas e região.</p>
+                    </div>
                 </div>
                 <div class="banner-slide">
-                    <img src="assets\img\Banner4.png" alt="Banner 4">
+                    <img src="assets/img/Banner2.png" alt="Onde a tradição encontra o futuro">
+                    <div class="banner-caption">
+                        <h3>Onde a tradição encontra o futuro.</h3>
+                        <p>Conectando você ao desenvolvimento e à força do nosso comércio local em Alfenas e região.</p>
+                    </div>
                 </div>
                 <div class="banner-slide">
-                    <img src="assets\img\Banner5.png" alt="Banner 5">
+                    <img src="assets/img/Banner3.png" alt="Onde a tradição encontra o futuro">
+                    <div class="banner-caption">
+                        <h3>Onde a tradição encontra o futuro.</h3>
+                        <p>Conectando você ao desenvolvimento e à força do nosso comércio local em Alfenas e região.</p>
+                    </div>
+                </div>
+                <div class="banner-slide">
+                    <img src="assets/img/Banner4.png" alt="Onde a tradição encontra o futuro">
+                    <div class="banner-caption">
+                        <h3>Onde a tradição encontra o futuro.</h3>
+                        <p>Conectando você ao desenvolvimento e à força do nosso comércio local em Alfenas e região.</p>
+                    </div>
+                </div>
+                <div class="banner-slide">
+                    <img src="assets/img/Banner5.png" alt="Onde a tradição encontra o futuro">
+                    <div class="banner-caption">
+                        <h3>Onde a tradição encontra o futuro.</h3>
+                        <p>Conectando você ao desenvolvimento e à força do nosso comércio local em Alfenas e região.</p>
+                    </div>
                 </div>
             </div>
 
@@ -598,6 +562,7 @@
                 <span class="banner-dot" data-index="2"></span>
                 <span class="banner-dot" data-index="3"></span>
                 <span class="banner-dot" data-index="4"></span>
+                <span class="banner-dot" data-index="5"></span>
             </div>
         </div>
     </section>
@@ -614,25 +579,50 @@
                         <option value="alterosa">Alterosa</option>
                         <option value="areado">Areado</option>
                         <option value="boa-esperanca">Boa Esperança</option>
+                        <option value="borda-da-mata">Borda da Mata</option>
+                        <option value="cabo-verde">Cabo Verde</option>
+                        <option value="cambui">Cambuí</option>
+                        <option value="campestre">Campestre</option>
+                        <option value="campo-do-meio">Campo do Meio</option>
                         <option value="campos-gerais">Campos Gerais</option>
+                        <option value="carmo-do-rio-claro">Carmo do Rio Claro</option>
                         <option value="fama">Fama</option>
                         <option value="guaxupe">Guaxupé</option>
+                        <option value="itajuba">Itajubá</option>
+                        <option value="itau-de-minas">Itaú de Minas</option>
                         <option value="machado">Machado</option>
+                        <option value="muzambinho">Muzambinho</option>
+                        <option value="paraguacu">Paraguaçu</option>
                         <option value="passos">Passos</option>
                         <option value="pocos-de-caldas">Poços de Caldas</option>
                         <option value="pouso-alegre">Pouso Alegre</option>
+                        <option value="santa-rita-do-sapucai">Santa Rita do Sapucaí</option>
+                        <option value="sao-lourenco">São Lourenço</option>
+                        <option value="sao-sebastiao-do-paraiso">São Sebastião do Paraíso</option>
+                        <option value="serrania">Serrania</option>
+                        <option value="tres-coracoes">Três Corações</option>
+                        <option value="tres-pontas">Três Pontas</option>
                         <option value="varginha">Varginha</option>
                     </select>
 
                     <select name="categoria" id="searchCategoria">
                         <option value="">Todas as Categorias</option>
                         <option value="Academias e Esportes">Academias e Esportes</option>
+                        <option value="Advocacia e Contabilidade">Advocacia e Contabilidade</option>
                         <option value="Alimentação e Gastronomia">Alimentação e Gastronomia</option>
                         <option value="Automotivo e Peças">Automotivo e Peças</option>
+                        <option value="Bares e Distribuidoras">Bares e Distribuidoras</option>
                         <option value="Beleza e Estética">Beleza e Estética</option>
-                        <option value="Comércio e Compras">Comércio e Compras</option>
                         <option value="Casa, Construção e Reformas">Casa, Construção e Reformas</option>
+                        <option value="Comércio e Compras">Comércio e Compras</option>
+                        <option value="Cursos e Educação">Cursos e Educação</option>
+                        <option value="Eventos e Festas">Eventos e Festas</option>
+                        <option value="Farmácias e Saúde">Farmácias e Saúde</option>
+                        <option value="Imóveis e Imobiliárias">Imóveis e Imobiliárias</option>
                         <option value="Pet Shop e Veterinária">Pet Shop e Veterinária</option>
+                        <option value="Serviços Gerais e Manutenção">Serviços Gerais e Manutenção</option>
+                        <option value="Tecnologia e Celulares">Tecnologia e Celulares</option>
+                        <option value="Turismo e Hospedagem">Turismo e Hospedagem</option>
                     </select>
 
                     <button type="submit" class="btn-search">BUSCAR</button>
@@ -695,7 +685,7 @@
 
     <footer class="main-footer">
         <div class="container">
-            <p>&copy; 2026 Guia Comercial Alfenas e Região. Todos os direitos reservados Mesquita SaaS.</p>
+            <p>&copy; 2026 Guia Comercial Alfenas e Região. Todos os direitos reservados: Mesquita SaaS.</p>
         </div>
     </footer>
 
@@ -706,23 +696,7 @@
         const SUPABASE_ANON_KEY = 'sb_publishable_qxJw3aamUcr9jI8m25OQrw_YdqBAn0p';
         const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-        // 1. Menu Sanduíche
-        const menuToggle = document.getElementById('menuToggle');
-        const navLinks = document.getElementById('navLinks');
-
-        menuToggle.addEventListener('click', () => {
-            navLinks.classList.toggle('active');
-            const icon = menuToggle.querySelector('i');
-            if (navLinks.classList.contains('active')) {
-                icon.classList.remove('fa-bars');
-                icon.classList.add('fa-xmark');
-            } else {
-                icon.classList.remove('fa-xmark');
-                icon.classList.add('fa-bars');
-            }
-        });
-
-        // 2. Lógica do Carrossel / Banner Rotativo
+        // 1. Lógica do Carrossel / Banner Rotativo
         const slidesContainer = document.getElementById('bannerSlides');
         const slides = document.querySelectorAll('.banner-slide');
         const dots = document.querySelectorAll('.banner-dot');
@@ -759,15 +733,14 @@
             });
         });
 
-        // Rotação automática a cada 4 segundos
-        let autoSlide = setInterval(nextSlide, 4000);
+        // Rotação automática a cada 5 segundos
+        let autoSlide = setInterval(nextSlide, 5000);
 
-        // Pausa ao passar o mouse por cima do banner
         const bannerWrapper = document.querySelector('.banner-wrapper');
         bannerWrapper.addEventListener('mouseenter', () => clearInterval(autoSlide));
-        bannerWrapper.addEventListener('mouseleave', () => autoSlide = setInterval(nextSlide, 4000));
+        bannerWrapper.addEventListener('mouseleave', () => autoSlide = setInterval(nextSlide, 5000));
 
-        // 3. Carregamento de Anúncios do Supabase
+        // 2. Carregamento de Anúncios do Supabase
         const urlParams = new URLSearchParams(window.location.search);
         const cidadeUrl = urlParams.get('cidade') || 'alfenas';
         const categoriaUrl = urlParams.get('categoria') || '';
