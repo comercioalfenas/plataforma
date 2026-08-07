@@ -304,6 +304,24 @@
                 switchTab('register');
             }
         });
+        document.getElementById('form-login').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    const email = document.getElementById('login-email').value;
+    const password = document.getElementById('login-password').value;
+
+    const { data, error } = await supabase.auth.signInWithPassword({
+        email: email,
+        password: password,
+    });
+
+    if (error) {
+        alert('E-mail ou senha incorretos.');
+        return;
+    }
+
+    window.location.href = 'dashboard.html';
+});
     </script>
 </body>
 </html>
