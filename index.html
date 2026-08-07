@@ -879,10 +879,10 @@
 card.innerHTML = `
     <div onclick="abrirModalAnuncio(${anuncio.id})" style="cursor: pointer; text-decoration: none; color: inherit; display: block; height: 100%;">
         <div class="listing-image-wrapper">
-            <img src="${anuncio.imagem_url}" class="listing-img" alt="${anuncio.nome}">
+            <img src="${anuncio.imagem_url}" class="listing-img" alt="${anuncio.titulo}">
         </div>
         <div class="listing-body">
-            <h3 class="listing-title">${anuncio.nome}</h3>
+            <h3 class="listing-title">${anuncio.titulo}</h3>
             <p class="listing-category"><i class="fa-solid fa-tag"></i> ${anuncio.categoria}</p>
             <p class="listing-description">${anuncio.descricao ? anuncio.descricao.substring(0, 90) + '...' : ''}</p>
         </div>
