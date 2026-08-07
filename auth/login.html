@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <link rel="icon" type="image/png" href="assets/img/favicon.png">
+    <link rel="icon" type="image/png" href="../assets/img/favicon.png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Acessar / Cadastrar - Guia Comercial Alfenas</title>
@@ -9,6 +9,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <link rel="stylesheet" href="../assets/css/style.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     
     <style>
         body {
@@ -165,6 +167,23 @@
             color: #64748b;
             margin-top: 4px;
         }
+
+        .auth-alert {
+            display: none;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 14px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            margin: 0 25px;
+            margin-top: 20px;
+        }
+        .auth-alert.show { display: flex; }
+        .auth-alert.error { background: #fef2f2; color: #b91c1c; border: 1px solid #fecaca; }
+        .auth-alert.success { background: #f0fdf4; color: #15803d; border: 1px solid #bbf7d0; }
+
+        .btn-submit:disabled { opacity: 0.7; cursor: not-allowed; }
     </style>
 </head>
 <body>
@@ -187,6 +206,11 @@
             <div class="auth-tabs">
                 <button type="button" class="tab-btn active" onclick="switchTab('login')">Acessar Conta</button>
                 <button type="button" class="tab-btn" onclick="switchTab('register')">Criar Conta</button>
+            </div>
+
+            <div id="authAlert" class="auth-alert">
+                <i class="fa-solid fa-circle-exclamation"></i>
+                <span id="authAlertText"></span>
             </div>
 
             <div class="auth-body">
@@ -279,10 +303,16 @@
     </footer>
 
     <script>
+        // Cliente Supabase (mesmo projeto usado no restante do site)
+        const SUPABASE_URL = 'https://sdwpoxtoosaseymlbgcn.supabase.co';
+        const SUPABASE_ANON_KEY = 'sb_publishable_qxJw3aamUcr9jI8m25OQrw_YdqBAn0p';
+        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
         function switchTab(tabName) {
             const loginForm = document.getElementById('form-login');
             const registerForm = document.getElementById('form-register');
             const tabs = document.querySelectorAll('.tab-btn');
+            hideAlert();
 
             if (tabName === 'login') {
                 loginForm.classList.add('active');
@@ -297,6 +327,31 @@
             }
         }
 
+        function showAlert(type, message) {
+            const box = document.getElementById('authAlert');
+            const text = document.getElementById('authAlertText');
+            const icon = box.querySelector('i');
+            box.classList.remove('error', 'success');
+            box.classList.add(type, 'show');
+            icon.className = type === 'success' ? 'fa-solid fa-circle-check' : 'fa-solid fa-circle-exclamation';
+            text.textContent = message;
+        }
+
+        function hideAlert() {
+            document.getElementById('authAlert').classList.remove('show');
+        }
+
+        function setLoading(button, loading, loadingText) {
+            if (loading) {
+                button.dataset.originalHtml = button.innerHTML;
+                button.disabled = true;
+                button.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> ${loadingText}`;
+            } else {
+                button.disabled = false;
+                button.innerHTML = button.dataset.originalHtml;
+            }
+        }
+
         // Se a URL tiver ?tab=register (ex: vindo da tela de planos), abre a aba de cadastro automaticamente
         window.addEventListener('DOMContentLoaded', () => {
             const urlParams = new URLSearchParams(window.location.search);
@@ -304,26 +359,65 @@
                 switchTab('register');
             }
         });
+
+        // ===== LOGIN =====
         document.getElementById('form-login').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    
-    const email = document.getElementById('login-email').value;
-    const password = document.getElementById('login-password').value;
+            e.preventDefault();
+            hideAlert();
 
-    const { data, error } = await supabase.auth.signInWithPassword({
-        email: email,
-        password: password,
-    });
+            const email = document.getElementById('login-email').value.trim();
+            const password = document.getElementById('login-password').value;
+            const btn = e.target.querySelector('.btn-submit');
 
-    if (error) {
-        alert('E-mail ou senha incorretos. Tente novamente.');
-        return;
-    }
+            setLoading(btn, true, 'Entrando...');
+            const { error } = await supabaseClient.auth.signInWithPassword({ email, password });
+            setLoading(btn, false);
 
-    window.location.href = 'dashboard.html';
-});
-    window.location.href = 'dashboard.html';
-});
+            if (error) {
+                showAlert('error', 'E-mail ou senha incorretos. Tente novamente.');
+                return;
+            }
+
+            window.location.href = '../dashboard/dashboard.html';
+        });
+
+        // ===== CRIAR CONTA =====
+        document.getElementById('form-register').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            hideAlert();
+
+            const nome = document.getElementById('reg-name').value.trim();
+            const telefone = document.getElementById('reg-phone').value.trim();
+            const email = document.getElementById('reg-email').value.trim();
+            const password = document.getElementById('reg-password').value;
+            const btn = e.target.querySelector('.btn-submit');
+
+            setLoading(btn, true, 'Criando conta...');
+            const { data, error } = await supabaseClient.auth.signUp({
+                email,
+                password,
+                options: {
+                    data: { nome_completo: nome, telefone: telefone }
+                }
+            });
+            setLoading(btn, false);
+
+            if (error) {
+                showAlert('error', error.message.includes('already registered')
+                    ? 'Este e-mail já possui cadastro. Tente acessar sua conta.'
+                    : 'Não foi possível criar a conta: ' + error.message);
+                return;
+            }
+
+            if (data.session) {
+                // Projeto sem confirmação de e-mail: usuário já entra logado
+                window.location.href = '../dashboard/cadastrar-anuncio.html';
+            } else {
+                // Projeto com confirmação de e-mail: avisa e volta para a aba de login
+                showAlert('success', 'Conta criada! Verifique seu e-mail para confirmar o cadastro antes de entrar.');
+                switchTab('login');
+            }
+        });
     </script>
 </body>
 </html>
