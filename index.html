@@ -875,26 +875,18 @@
                 data.forEach(anuncio => {
                     const card = document.createElement('div');
                     card.className = 'listing-card';
-                    card.innerHTML = `
-                        <div class="listing-image-wrapper">
-                            <img src="${anuncio.imagem_url || 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?q=80&w=600&auto=format&fit=crop'}" class="listing-img" alt="${anuncio.titulo}">
-                            <div class="badge-cat-icon">
-                                <i class="fa-solid fa-store"></i>
-                            </div>
-                        </div>
-                        <div class="listing-body">
-                            <h3 class="listing-title">${anuncio.titulo}</h3>
-                            <p class="listing-category"><i class="fa-solid fa-tag"></i> ${anuncio.categoria}</p>
-                            <p class="listing-description">${anuncio.descricao || 'Sem descrição informada.'}</p>
-                        </div>
-                        <div class="listing-footer">
-                            <span>${anuncio.status || 'ABERTO AGORA'}</span>
-                            <div class="listing-actions">
-                                <i class="fa-solid fa-location-dot" title="Ver no mapa"></i>
-                                <i class="fa-regular fa-heart" title="Favoritar"></i>
-                            </div>
-                        </div>
-                    `;
+                    // Onde o card do anúncio é construído, adicione a tag <a> ao redor ou no container:
+card.innerHTML = `
+    <a href="anunciante.html?id=${anuncio.id}" style="text-decoration: none; color: inherit; display: block;">
+        <div class="listing-img-container">
+            <img src="${anuncio.imagem_url}" alt="${anuncio.nome}">
+        </div>
+        <div class="listing-content">
+            <h3>${anuncio.nome}</h3>
+            <p>${anuncio.categoria}</p>
+        </div>
+    </a>
+`;
                     container.appendChild(card);
                 });
 
