@@ -877,15 +877,16 @@
                     card.className = 'listing-card';
                     // Onde o card do anúncio é construído, adicione a tag <a> ao redor ou no container:
 card.innerHTML = `
-    <a href="anunciante.html?id=${anuncio.id}" style="text-decoration: none; color: inherit; display: block;">
-        <div class="listing-img-container">
-            <img src="${anuncio.imagem_url}" alt="${anuncio.nome}">
+    <div onclick="abrirModalAnuncio(${anuncio.id})" style="cursor: pointer; text-decoration: none; color: inherit; display: block; height: 100%;">
+        <div class="listing-image-wrapper">
+            <img src="${anuncio.imagem_url}" class="listing-img" alt="${anuncio.nome}">
         </div>
-        <div class="listing-content">
-            <h3>${anuncio.nome}</h3>
-            <p>${anuncio.categoria}</p>
+        <div class="listing-body">
+            <h3 class="listing-title">${anuncio.nome}</h3>
+            <p class="listing-category"><i class="fa-solid fa-tag"></i> ${anuncio.categoria}</p>
+            <p class="listing-description">${anuncio.descricao ? anuncio.descricao.substring(0, 90) + '...' : ''}</p>
         </div>
-    </a>
+    </div>
 `;
                     container.appendChild(card);
                 });
@@ -937,4 +938,63 @@ card.innerHTML = `
         }
     </script>
 </body>
+<div id="modalAnuncio" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 2000; justify-content: center; align-items: center; padding: 15px;">
+    <div style="background: #fff; width: 100%; max-width: 600px; border-radius: 12px; padding: 25px; position: relative; max-height: 90vh; overflow-y: auto; box-shadow: 0 15px 30px rgba(0,0,0,0.2);">
+        <button onclick="fecharModalAnuncio()" style="position: absolute; top: 15px; right: 15px; background: none; border: none; font-size: 24px; cursor: pointer; color: #64748b; z-index: 10;"><i class="fa-solid fa-xmark"></i></button>
+        
+        <div id="modalConteudo" style="display: flex; flex-direction: column; gap: 15px;">
+            </div>
+    </div>
+</div>
+
+<script>
+    async function abrirModalAnuncio(idAnuncio) {
+        const { data: anuncio, error } = await supabase
+            .from('anuncios')
+            .select('*')
+            .eq('id', idAnuncio)
+            .single();
+
+        if (error || !anuncio) {
+            alert('Não foi possível carregar as informações do anúncio.');
+            return;
+        }
+
+        // Incrementa visualizações
+        await supabase.from('anuncios').update({ visualizacoes: (anuncio.visualizacoes || 0) + 1 }).eq('id', idAnuncio);
+
+        const modalConteudo = document.getElementById('modalConteudo');
+        modalConteudo.innerHTML = `
+            <img src="${anuncio.imagem_url || 'https://via.placeholder.com/600x300'}" alt="${anuncio.nome}" style="width: 100%; height: 220px; object-fit: cover; border-radius: 8px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+                <h2 style="font-size: 20px; color: #1e293b; margin: 0;">${anuncio.nome}</h2>
+                <span style="background: #e2e8f0; color: #334155; padding: 4px 10px; border-radius: 6px; font-size: 13px; font-weight: 600;">${anuncio.categoria || 'Geral'}</span>
+            </div>
+            <p style="color: #64748b; font-size: 14px; line-height: 1.5;">${anuncio.descricao || 'Sem descrição informada.'}</p>
+            <hr style="border: 0; border-top: 1px solid #e2e8f0; margin: 5px 0;">
+            <div style="display: flex; flex-direction: column; gap: 10px; font-size: 14px; color: #475569;">
+                <div><i class="fa-solid fa-location-dot" style="color: #2563eb; width: 20px;"></i> ${anuncio.endereco || 'Endereço não informado'}</div>
+                <div><i class="fa-solid fa-phone" style="color: #2563eb; width: 20px;"></i> ${anuncio.telefone || 'Telefone não informado'}</div>
+            </div>
+            ${anuncio.whatsapp ? `
+                <a href="https://wa.me/55${anuncio.whatsapp.replace(/\D/g, '')}" target="_blank" onclick="registrarCliqueWhats(${anuncio.id})" style="background: #22c55e; color: #fff; text-align: center; padding: 12px; border-radius: 8px; text-decoration: none; font-weight: 600; margin-top: 10px; display: flex; align-items: center; justify-content: center; gap: 8px;">
+                    <i class="fa-brands fa-whatsapp" style="font-size: 18px;"></i> Conversar no WhatsApp
+                </a>
+            ` : ''}
+        `;
+
+        document.getElementById('modalAnuncio').style.display = 'flex';
+    }
+
+    function fecharModalAnuncio() {
+        document.getElementById('modalAnuncio').style.display = 'none';
+    }
+
+    async function registrarCliqueWhats(id) {
+        const { data } = await supabase.from('anuncios').select('cliques_whatsapp').eq('id', id).single();
+        if (data) {
+            await supabase.from('anuncios').update({ cliques_whatsapp: (data.cliques_whatsapp || 0) + 1 }).eq('id', id);
+        }
+    }
+</script>
 </html>
