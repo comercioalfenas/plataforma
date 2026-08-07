@@ -88,4 +88,65 @@
     </main>
 
 </body>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+    const SUPABASE_URL = 'SUA_SUPABASE_URL_AQUI';
+    const SUPABASE_ANON_KEY = 'SUA_SUPABASE_ANON_KEY_AQUI';
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    async function carregarPainelRestrito() {
+        const { data: { user }, error: authError } = await supabase.auth.getUser();
+
+        if (authError || !user) {
+            window.location.href = 'login.html';
+            return;
+        }
+
+        const { data: anuncios, error } = await supabase
+            .from('anuncios')
+            .select('*')
+            .eq('user_id', user.id);
+
+        const container = document.getElementById('user-listings-container');
+        const dashWelcome = document.querySelector('.dash-welcome');
+
+        if (error || !anuncios || anuncios.length === 0) {
+            // Se não tem loja, exibe botão para cadastrar a 1ª loja
+            container.innerHTML = `
+                <div class="empty-state" style="text-align: center; padding: 40px; color: #64748b;">
+                    <i class="fa-solid fa-folder-open" style="font-size: 40px; margin-bottom: 12px; color: #cbd5e1;"></i>
+                    <p>Você ainda não possui sua loja cadastrada.</p>
+                    <a href="cadastrar-anuncio.html" class="btn-primary-dash" style="margin-top: 15px; display: inline-block; padding: 10px 20px; background: #2563eb; color: #fff; text-decoration: none; border-radius: 6px;">Cadastrar Minha Loja</a>
+                </div>
+            `;
+            return;
+        }
+
+        const anuncio = anuncios[0]; // Pega a única loja permitida
+
+        // Atualiza as métricas reais com base no banco de dados
+        document.querySelector('.stat-card:nth-child(1) h4').innerText = anuncio.visualizacoes || 0;
+        document.querySelector('.stat-card:nth-child(2) h4').innerText = anuncio.cliques_whatsapp || 0;
+        document.querySelector('.stat-card:nth-child(3) h4').innerText = anuncio.status || 'ATIVO';
+
+        // Exibe a loja cadastrada e remove qualquer opção de criar novo anúncio
+        container.innerHTML = `
+            <div class="listing-item-dash" style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 20px; display: flex; align-items: center; justify-content: space-between; gap: 20px;">
+                <div style="display: flex; align-items: center; gap: 15px;">
+                    <img src="${anuncio.imagem_url || 'https://via.placeholder.com/80'}" alt="${anuncio.nome}" style="width: 80px; height: 80px; object-fit: cover; border-radius: 6px;">
+                    <div>
+                        <h4 style="font-size: 18px; color: #1e293b; margin-bottom: 4px;">${anuncio.nome}</h4>
+                        <p style="color: #64748b; font-size: 14px;"><i class="fa-solid fa-tag"></i> ${anuncio.categoria || 'Geral'}</p>
+                        <span style="display: inline-block; margin-top: 6px; padding: 2px 8px; background: #dcfce7; color: #166534; border-radius: 4px; font-size: 12px; font-weight: 600;">${anuncio.status || 'ATIVO'}</span>
+                    </div>
+                </div>
+                <div>
+                    <a href="../anunciante.html?id=${anuncio.id}" target="_blank" style="padding: 8px 14px; background: #f1f5f9; color: #334155; text-decoration: none; border-radius: 6px; font-size: 14px; font-weight: 500;"><i class="fa-solid fa-eye"></i> Ver Loja</a>
+                </div>
+            </div>
+        `;
+    }
+
+    window.addEventListener('DOMContentLoaded', carregarPainelRestrito);
+</script>
 </html>

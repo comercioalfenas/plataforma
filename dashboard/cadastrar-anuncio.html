@@ -364,4 +364,27 @@
         });
     </script>
 </body>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+    const SUPABASE_URL = 'SUA_SUPABASE_URL_AQUI';
+    const SUPABASE_ANON_KEY = 'SUA_SUPABASE_ANON_KEY_AQUI';
+    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    async function verificarLimiteLoja() {
+        const { data: { user } } = await supabaseClient.auth.getUser();
+        if (!user) return;
+
+        const { data: anuncios } = await supabaseClient
+            .from('anuncios')
+            .select('id')
+            .eq('user_id', user.id);
+
+        if (anuncios && anuncios.length > 0) {
+            alert('Você já possui uma loja cadastrada. Cada anunciante pode cadastrar apenas 1 estabelecimento.');
+            window.location.href = 'dashboard.html';
+        }
+    }
+
+    window.addEventListener('DOMContentLoaded', verificarLimiteLoja);
+</script>
 </html>
