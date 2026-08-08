@@ -5,9 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastrar Anúncio - Guia Comercial</title>
-    
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+
     <style>
         * {
             margin: 0;
@@ -91,8 +91,10 @@
             align-items: center;
             gap: 10px;
         }
+        .form-section-title:not(:first-child) { margin-top: 34px; }
 
         .form-group { margin-bottom: 20px; }
+        .form-hint { color: #64748b; font-size: 0.8rem; margin-top: 5px; }
 
         .form-row {
             display: grid;
@@ -150,12 +152,22 @@
             margin-top: 10px;
         }
 
+        .preview-thumb-wrapper { position: relative; }
+
         .preview-thumb {
             width: 70px;
             height: 70px;
             object-fit: cover;
             border-radius: 6px;
             border: 1px solid #cbd5e1;
+            display: block;
+        }
+
+        .preview-remove {
+            position: absolute; top: -6px; right: -6px;
+            width: 20px; height: 20px; border-radius: 50%;
+            background: #e11d48; color: #fff; border: none;
+            font-size: 0.65rem; cursor: pointer; line-height: 1;
         }
 
         .btn-submit {
@@ -174,6 +186,28 @@
 
         .btn-submit:hover { background-color: #1d4ed8; }
         .btn-submit:disabled { background-color: #cbd5e1; cursor: not-allowed; }
+
+        .horarios-grid { display: flex; flex-direction: column; gap: 8px; }
+        .horario-linha {
+            display: grid; grid-template-columns: 90px 90px 1fr 1fr; gap: 10px; align-items: center;
+            padding: 8px 10px; background: #f8fafc; border-radius: 6px; border: 1px solid #e2e8f0;
+        }
+        .horario-linha span { font-weight: 700; font-size: 0.85rem; color: #334155; }
+        .horario-linha label.chk-fechado {
+            display: flex; align-items: center; gap: 6px; font-weight: 500; font-size: 0.78rem;
+            color: #64748b; margin: 0; cursor: pointer;
+        }
+        .horario-linha input[type="time"] {
+            padding: 7px 8px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 0.82rem; width: 100%;
+        }
+        @media (max-width: 560px) {
+            .horario-linha { grid-template-columns: 70px 1fr; grid-template-rows: auto auto; }
+        }
+
+        .tela-verificando {
+            text-align: center; padding: 120px 20px; color: #94a3b8;
+        }
+        .tela-verificando i { font-size: 1.8rem; margin-bottom: 12px; display: block; }
     </style>
 </head>
 <body>
@@ -183,7 +217,7 @@
             <a href="../index.html" class="logo">
                 <i class="fa-solid fa-location-dot"></i> GUIA<span>ALFENAS</span>
             </a>
-            
+
             <nav class="nav-links">
                 <a href="../index.html">INÍCIO</a>
                 <a href="../planos.html">PLANOS</a>
@@ -192,100 +226,159 @@
     </header>
 
     <div class="container">
-        <div class="page-title">
-            <h1>Configurar Anúncio da Empresa</h1>
-            <p>Preencha os dados abaixo para publicar seu anúncio no portal.</p>
+
+        <!-- Exibido enquanto confere login / limite de 1 loja -->
+        <div id="telaVerificando" class="tela-verificando">
+            <i class="fa-solid fa-spinner fa-spin"></i>
+            Verificando sua conta...
         </div>
 
-        <form id="formAnuncio" class="form-card">
-            
-            <div class="form-section-title">
-                <i class="fa-solid fa-store" style="color: #2563eb;"></i> 1. Informações do Negócio
+        <div id="conteudoFormulario" style="display: none;">
+            <div class="page-title">
+                <h1>Configurar Anúncio da Empresa</h1>
+                <p>Preencha os dados abaixo para publicar seu anúncio no portal.</p>
             </div>
 
-            <div class="form-group">
-                <label for="nomeEmpresa">Nome Fantasia da Empresa *</label>
-                <input type="text" id="nomeEmpresa" placeholder="Ex: Zinzane Boutique" required>
-            </div>
+            <form id="formAnuncio" class="form-card">
 
-            <div class="form-row">
-                <div class="form-group">
-                    <label for="cidade">Cidade *</label>
-                    <select id="cidade" required>
-                        <option value="">Selecione a cidade...</option>
-                        <option value="Alfenas">Alfenas</option>
-                        <option value="Alterosa">Alterosa</option>
-                        <option value="Areado">Areado</option>
-                        <option value="Boa Esperança">Boa Esperança</option>
-                        <option value="Borda da Mata">Borda da Mata</option>
-                        <option value="Cabo Verde">Cabo Verde</option>
-                        <option value="Cambuí">Cambuí</option>
-                        <option value="Campestre">Campestre</option>
-                        <option value="Campo do Meio">Campo do Meio</option>
-                        <option value="Campos Gerais">Campos Gerais</option>
-                        <option value="Carmo do Rio Claro">Carmo do Rio Claro</option>
-                        <option value="Fama">Fama</option>
-                        <option value="Guaxupé">Guaxupé</option>
-                        <option value="Itajubá">Itajubá</option>
-                        <option value="Itaú de Minas">Itaú de Minas</option>
-                        <option value="Machado">Machado</option>
-                        <option value="Muzambinho">Muzambinho</option>
-                        <option value="Paraguaçu">Paraguaçu</option>
-                        <option value="Passos">Passos</option>
-                        <option value="Poços de Caldas">Poços de Caldas</option>
-                        <option value="Pouso Alegre">Pouso Alegre</option>
-                        <option value="Santa Rita do Sapucaí">Santa Rita do Sapucaí</option>
-                        <option value="São Lourenço">São Lourenço</option>
-                        <option value="São Sebastião do Paraíso">São Sebastião do Paraíso</option>
-                        <option value="Serrania">Serrania</option>
-                        <option value="Três Corações">Três Corações</option>
-                        <option value="Três Pontas">Três Pontas</option>
-                        <option value="Varginha">Varginha</option>
-                    </select>
+                <div class="form-section-title">
+                    <i class="fa-solid fa-store" style="color: #2563eb;"></i> 1. Informações do Negócio
                 </div>
 
                 <div class="form-group">
-                    <label for="categoria">Categoria Principal *</label>
-                    <select id="categoria" required>
-                        <option value="">Selecione a categoria...</option>
-                        <option value="Academias e Esportes">Academias e Esportes</option>
-                        <option value="Advocacia e Contabilidade">Advocacia e Contabilidade</option>
-                        <option value="Alimentação e Gastronomia">Alimentação e Gastronomia</option>
-                        <option value="Automotivo e Peças">Automotivo e Peças</option>
-                        <option value="Bares e Distribuidoras">Bares e Distribuidoras</option>
-                        <option value="Beleza e Estética">Beleza e Estética</option>
-                        <option value="Casa, Construção e Reformas">Casa, Construção e Reformas</option>
-                        <option value="Comércio e Compras">Comércio e Compras</option>
-                        <option value="Cursos e Educação">Cursos e Educação</option>
-                        <option value="Eventos e Festas">Eventos e Festas</option>
-                        <option value="Farmácias e Saúde">Farmácias e Saúde</option>
-                        <option value="Imóveis e Imobiliárias">Imóveis e Imobiliárias</option>
-                        <option value="Pet Shop e Veterinária">Pet Shop e Veterinária</option>
-                        <option value="Serviços Gerais e Manutenção">Serviços Gerais e Manutenção</option>
-                        <option value="Tecnologia e Celulares">Tecnologia e Celulares</option>
-                        <option value="Turismo e Hospedagem">Turismo e Hospedagem</option>
-                    </select>
+                    <label for="nomeEmpresa">Nome Fantasia da Empresa *</label>
+                    <input type="text" id="nomeEmpresa" placeholder="Ex: Zinzane Boutique" required>
                 </div>
-            </div>
 
-            <div class="form-group">
-                <label for="descricao">Sobre a Empresa / Descrição do Anúncio *</label>
-                <textarea id="descricao" placeholder="Escreva aqui os detalhes sobre seus produtos, serviços e diferenciais..." required></textarea>
-            </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="cidade">Cidade *</label>
+                        <select id="cidade" required>
+                            <option value="">Selecione a cidade...</option>
+                            <option value="Alfenas">Alfenas</option>
+                            <option value="Alterosa">Alterosa</option>
+                            <option value="Areado">Areado</option>
+                            <option value="Boa Esperança">Boa Esperança</option>
+                            <option value="Borda da Mata">Borda da Mata</option>
+                            <option value="Cabo Verde">Cabo Verde</option>
+                            <option value="Cambuí">Cambuí</option>
+                            <option value="Campestre">Campestre</option>
+                            <option value="Campo do Meio">Campo do Meio</option>
+                            <option value="Campos Gerais">Campos Gerais</option>
+                            <option value="Carmo do Rio Claro">Carmo do Rio Claro</option>
+                            <option value="Fama">Fama</option>
+                            <option value="Guaxupé">Guaxupé</option>
+                            <option value="Itajubá">Itajubá</option>
+                            <option value="Itaú de Minas">Itaú de Minas</option>
+                            <option value="Machado">Machado</option>
+                            <option value="Muzambinho">Muzambinho</option>
+                            <option value="Paraguaçu">Paraguaçu</option>
+                            <option value="Passos">Passos</option>
+                            <option value="Poços de Caldas">Poços de Caldas</option>
+                            <option value="Pouso Alegre">Pouso Alegre</option>
+                            <option value="Santa Rita do Sapucaí">Santa Rita do Sapucaí</option>
+                            <option value="São Lourenço">São Lourenço</option>
+                            <option value="São Sebastião do Paraíso">São Sebastião do Paraíso</option>
+                            <option value="Serrania">Serrania</option>
+                            <option value="Três Corações">Três Corações</option>
+                            <option value="Três Pontas">Três Pontas</option>
+                            <option value="Varginha">Varginha</option>
+                        </select>
+                    </div>
 
-            <div class="form-section-title">
-                <i class="fa-solid fa-images" style="color: #2563eb;"></i> 2. Logo da Empresa
-            </div>
+                    <div class="form-group">
+                        <label for="categoria">Categoria Principal *</label>
+                        <select id="categoria" required>
+                            <option value="">Selecione a categoria...</option>
+                            <option value="Academias e Esportes">Academias e Esportes</option>
+                            <option value="Advocacia e Contabilidade">Advocacia e Contabilidade</option>
+                            <option value="Alimentação e Gastronomia">Alimentação e Gastronomia</option>
+                            <option value="Automotivo e Peças">Automotivo e Peças</option>
+                            <option value="Bares e Distribuidoras">Bares e Distribuidoras</option>
+                            <option value="Beleza e Estética">Beleza e Estética</option>
+                            <option value="Casa, Construção e Reformas">Casa, Construção e Reformas</option>
+                            <option value="Comércio e Compras">Comércio e Compras</option>
+                            <option value="Cursos e Educação">Cursos e Educação</option>
+                            <option value="Eventos e Festas">Eventos e Festas</option>
+                            <option value="Farmácias e Saúde">Farmácias e Saúde</option>
+                            <option value="Imóveis e Imobiliárias">Imóveis e Imobiliárias</option>
+                            <option value="Pet Shop e Veterinária">Pet Shop e Veterinária</option>
+                            <option value="Serviços Gerais e Manutenção">Serviços Gerais e Manutenção</option>
+                            <option value="Tecnologia e Celulares">Tecnologia e Celulares</option>
+                            <option value="Turismo e Hospedagem">Turismo e Hospedagem</option>
+                        </select>
+                    </div>
+                </div>
 
-            <div class="form-group">
-                <label for="uploadLogo">Logo da Empresa (PNG ou JPEG)</label>
-                <input type="file" id="uploadLogo" accept="image/png, image/jpeg, image/jpg">
-                <div id="previewLogoContainer" class="preview-container"></div>
-                <p style="color: #64748b; font-size: 0.8rem; margin-top: 5px;">Recomendado: imagem quadrada, ex: 500x500px.</p>
-            </div>
+                <div class="form-group">
+                    <label for="descricao">Sobre a Empresa / Descrição do Anúncio *</label>
+                    <textarea id="descricao" placeholder="Escreva aqui os detalhes sobre seus produtos, serviços e diferenciais..." required></textarea>
+                </div>
 
-            <button type="submit" class="btn-submit">SALVAR E PUBLICAR ANÚNCIO</button>
-        </form>
+                <div class="form-section-title">
+                    <i class="fa-solid fa-map-location-dot" style="color: #2563eb;"></i> 2. Contato e Localização
+                </div>
+
+                <div class="form-group">
+                    <label for="endereco">Endereço Completo *</label>
+                    <input type="text" id="endereco" placeholder="Ex: Rua Coronel José Justino, 123 - Centro, Alfenas - MG" required>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="telefone">Telefone Fixo</label>
+                        <input type="tel" id="telefone" placeholder="Ex: (35) 3299-0000">
+                    </div>
+                    <div class="form-group">
+                        <label for="whatsapp">WhatsApp *</label>
+                        <input type="tel" id="whatsapp" placeholder="Ex: (35) 99999-0000" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="instagram">Instagram</label>
+                        <input type="text" id="instagram" placeholder="Ex: @suaempresa ou link do perfil">
+                    </div>
+                    <div class="form-group">
+                        <label for="site">Site (opcional)</label>
+                        <input type="url" id="site" placeholder="Ex: https://www.suaempresa.com.br">
+                    </div>
+                </div>
+
+                <div class="form-section-title">
+                    <i class="fa-solid fa-clock" style="color: #2563eb;"></i> 3. Horário de Funcionamento
+                </div>
+
+                <div class="form-group">
+                    <div id="horariosSemana" class="horarios-grid"></div>
+                </div>
+
+                <div class="form-section-title">
+                    <i class="fa-solid fa-image" style="color: #2563eb;"></i> 4. Logo da Empresa
+                </div>
+
+                <div class="form-group">
+                    <label for="uploadLogo">Logo da Empresa (PNG ou JPEG)</label>
+                    <input type="file" id="uploadLogo" accept="image/png, image/jpeg, image/jpg">
+                    <div id="previewLogoContainer" class="preview-container"></div>
+                    <p class="form-hint">Recomendado: imagem quadrada, ex: 500x500px.</p>
+                </div>
+
+                <div class="form-section-title">
+                    <i class="fa-solid fa-images" style="color: #2563eb;"></i> 5. Fotos do Estabelecimento
+                </div>
+
+                <div class="form-group">
+                    <label for="uploadFotos">Fotos (até 8 imagens)</label>
+                    <input type="file" id="uploadFotos" accept="image/png, image/jpeg, image/jpg" multiple>
+                    <div id="previewFotosContainer" class="preview-container"></div>
+                    <p class="form-hint" id="contadorFotos">0 de 8 fotos selecionadas.</p>
+                </div>
+
+                <button type="submit" class="btn-submit">SALVAR E PUBLICAR ANÚNCIO</button>
+            </form>
+        </div>
     </div>
 
     <script type="module">
@@ -296,13 +389,92 @@
         const SUPABASE_ANON_KEY = 'sb_publishable_qxJw3aamUcr9jI8m25OQrw_YdqBAn0p';
         const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
+        let usuarioAtual = null;
         let logoDataUrl = '';
+        let fotosDataUrls = [];
 
-        // Lógica de pré-visualização da imagem
+        // ===== Monta as 7 linhas de horário (Seg a Dom) =====
+        const DIAS_SEMANA = [
+            { chave: 'seg', label: 'Segunda' },
+            { chave: 'ter', label: 'Terça' },
+            { chave: 'qua', label: 'Quarta' },
+            { chave: 'qui', label: 'Quinta' },
+            { chave: 'sex', label: 'Sexta' },
+            { chave: 'sab', label: 'Sábado' },
+            { chave: 'dom', label: 'Domingo' }
+        ];
+
+        function montarLinhasHorario() {
+            const container = document.getElementById('horariosSemana');
+            container.innerHTML = DIAS_SEMANA.map(dia => `
+                <div class="horario-linha" data-dia="${dia.chave}">
+                    <span>${dia.label}</span>
+                    <label class="chk-fechado">
+                        <input type="checkbox" class="chk-fechado-input" ${dia.chave === 'dom' ? 'checked' : ''}> Fechado
+                    </label>
+                    <input type="time" class="input-abre" value="08:00" ${dia.chave === 'dom' ? 'disabled' : ''}>
+                    <input type="time" class="input-fecha" value="18:00" ${dia.chave === 'dom' ? 'disabled' : ''}>
+                </div>
+            `).join('');
+
+            container.querySelectorAll('.chk-fechado-input').forEach(chk => {
+                chk.addEventListener('change', function() {
+                    const linha = this.closest('.horario-linha');
+                    linha.querySelector('.input-abre').disabled = this.checked;
+                    linha.querySelector('.input-fecha').disabled = this.checked;
+                });
+            });
+        }
+
+        function coletarHorarios() {
+            const horarios = {};
+            document.querySelectorAll('#horariosSemana .horario-linha').forEach(linha => {
+                const dia = linha.dataset.dia;
+                const fechado = linha.querySelector('.chk-fechado-input').checked;
+                horarios[dia] = fechado ? { aberto: false } : {
+                    aberto: true,
+                    abre: linha.querySelector('.input-abre').value,
+                    fecha: linha.querySelector('.input-fecha').value
+                };
+            });
+            return horarios;
+        }
+
+        montarLinhasHorario();
+
+        // ===== Verifica login e limite de 1 loja por conta antes de mostrar o formulário =====
+        async function verificarAcesso() {
+            const { data: { user } } = await supabase.auth.getUser();
+
+            if (!user) {
+                alert('Você precisa estar logado para cadastrar um anúncio.');
+                window.location.href = '../auth/login.html';
+                return;
+            }
+
+            const { data: anunciosExistentes, error } = await supabase
+                .from('anuncios')
+                .select('id')
+                .eq('user_id', user.id);
+
+            if (!error && anunciosExistentes && anunciosExistentes.length > 0) {
+                alert('Você já possui uma loja cadastrada. Cada anunciante pode cadastrar apenas 1 estabelecimento.');
+                window.location.href = 'dashboard.html';
+                return;
+            }
+
+            usuarioAtual = user;
+            document.getElementById('telaVerificando').style.display = 'none';
+            document.getElementById('conteudoFormulario').style.display = 'block';
+        }
+
+        verificarAcesso();
+
+        // ===== Preview da logo =====
         document.getElementById('uploadLogo').addEventListener('change', function(e) {
             const file = e.target.files[0];
             const container = document.getElementById('previewLogoContainer');
-            container.innerHTML = ''; // Limpa preview anterior
+            container.innerHTML = '';
             if (file) {
                 const reader = new FileReader();
                 reader.onload = function(event) {
@@ -316,7 +488,57 @@
             }
         });
 
-        // Envio do formulário
+        // ===== Preview das fotos do estabelecimento (até 8) =====
+        function renderizarPreviewFotos() {
+            const container = document.getElementById('previewFotosContainer');
+            container.innerHTML = '';
+            fotosDataUrls.forEach((dataUrl, index) => {
+                const wrapper = document.createElement('div');
+                wrapper.className = 'preview-thumb-wrapper';
+
+                const img = document.createElement('img');
+                img.src = dataUrl;
+                img.className = 'preview-thumb';
+
+                const btnRemover = document.createElement('button');
+                btnRemover.type = 'button';
+                btnRemover.className = 'preview-remove';
+                btnRemover.innerHTML = '&times;';
+                btnRemover.onclick = () => {
+                    fotosDataUrls.splice(index, 1);
+                    renderizarPreviewFotos();
+                };
+
+                wrapper.appendChild(img);
+                wrapper.appendChild(btnRemover);
+                container.appendChild(wrapper);
+            });
+            document.getElementById('contadorFotos').textContent = `${fotosDataUrls.length} de 8 fotos selecionadas.`;
+        }
+
+        document.getElementById('uploadFotos').addEventListener('change', function(e) {
+            const arquivos = Array.from(e.target.files);
+            const vagasDisponiveis = 8 - fotosDataUrls.length;
+
+            if (arquivos.length > vagasDisponiveis) {
+                alert(`Você só pode adicionar mais ${vagasDisponiveis} foto(s). O limite é 8 fotos no total.`);
+            }
+
+            const arquivosParaAdicionar = arquivos.slice(0, vagasDisponiveis);
+
+            arquivosParaAdicionar.forEach(file => {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    fotosDataUrls.push(event.target.result);
+                    renderizarPreviewFotos();
+                };
+                reader.readAsDataURL(file);
+            });
+
+            e.target.value = '';
+        });
+
+        // ===== Envio do formulário =====
         document.getElementById('formAnuncio').addEventListener('submit', async function(e) {
             e.preventDefault();
 
@@ -324,13 +546,20 @@
             btnSubmit.innerText = 'Salvando no Banco de Dados...';
             btnSubmit.disabled = true;
 
-            // Monta o objeto com os dados exatos
             const novoAnuncio = {
+                user_id: usuarioAtual.id,
                 titulo: document.getElementById('nomeEmpresa').value.trim(),
                 cidade: document.getElementById('cidade').value.toLowerCase().trim(),
                 categoria: document.getElementById('categoria').value.trim(),
                 descricao: document.getElementById('descricao').value.trim(),
+                endereco: document.getElementById('endereco').value.trim(),
+                telefone: document.getElementById('telefone').value.trim(),
+                whatsapp: document.getElementById('whatsapp').value.trim(),
+                instagram: document.getElementById('instagram').value.trim(),
+                site: document.getElementById('site').value.trim(),
+                horarios: coletarHorarios(),
                 imagem_url: logoDataUrl || 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?q=80&w=600&auto=format&fit=crop',
+                fotos: fotosDataUrls,
                 status: 'ABERTO AGORA'
             };
 
@@ -349,42 +578,18 @@
 
             } catch (err) {
                 console.error('Erro detalhado do Supabase:', err);
-                
-                // Mensagem detalhada para identificar se é bloqueio de RLS
+
                 let mensagemErro = err.message || JSON.stringify(err);
                 if (mensagemErro.includes('Failed to fetch')) {
                     mensagemErro = "Falha de comunicação com o Supabase. Verifique se as políticas de segurança (RLS) da tabela 'anuncios' permitem inserções públicas ou se a URL do projeto está correta.";
                 }
-                
+
                 alert('Erro ao salvar o anúncio: ' + mensagemErro);
-                
+
                 btnSubmit.innerText = 'SALVAR E PUBLICAR ANÚNCIO';
                 btnSubmit.disabled = false;
             }
         });
     </script>
 </body>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script>
-    const SUPABASE_URL = 'SUA_SUPABASE_URL_AQUI';
-    const SUPABASE_ANON_KEY = 'SUA_SUPABASE_ANON_KEY_AQUI';
-    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-    async function verificarLimiteLoja() {
-        const { data: { user } } = await supabaseClient.auth.getUser();
-        if (!user) return;
-
-        const { data: anuncios } = await supabaseClient
-            .from('anuncios')
-            .select('id')
-            .eq('user_id', user.id);
-
-        if (anuncios && anuncios.length > 0) {
-            alert('Você já possui uma loja cadastrada. Cada anunciante pode cadastrar apenas 1 estabelecimento.');
-            window.location.href = 'dashboard.html';
-        }
-    }
-
-    window.addEventListener('DOMContentLoaded', verificarLimiteLoja);
-</script>
 </html>
